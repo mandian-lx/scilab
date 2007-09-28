@@ -20,6 +20,7 @@ BuildRequires: libpvm-devel
 Requires: tcl >= 8.5
 Requires: pvm tk gcc-gfortran
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
+ExclusiveArch: %ix86
 
 %description
 Scilab is a high-level language, primarily intended for numerical
