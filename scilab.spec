@@ -10,13 +10,15 @@ Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
 Source20: scilab.el
 Patch1:	0001-UseStandardXaw.patch
 URL: http://www.scilab.org/
-BuildRequires: perl tcl-devel tk-devel vte-devel
+BuildRequires: perl tk-devel vte-devel
+BuildRequires: tcl-devel >= 8.5
 BuildRequires: xaw-devel
 BuildRequires: emacs-nox libgcj-devel gcc3.3-g77
 BuildRequires: gcc-java ocaml
 BuildRequires: ImageMagick sablotron
-BuildRequires: libpvm-devel 
-Requires: pvm tcl tk gcc-gfortran
+BuildRequires: libpvm-devel
+Requires: tcl >= 8.5
+Requires: pvm tk gcc-gfortran
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
