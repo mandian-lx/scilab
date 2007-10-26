@@ -43,7 +43,6 @@ rm -rf %{buildroot}
 	--with-g77 \
 	--with-java \
 	--with-ocaml \
-        --with-atlas-library=/usr/src/ATLAS \
 	--enable-static=no
 
 # fix java include path
