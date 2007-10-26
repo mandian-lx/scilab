@@ -2,23 +2,26 @@
 
 Summary: A high-level language for numerical computations
 Name:	 scilab
-Version: 4.1.1
+Version: 4.1.2
 Release: %mkrel 1
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
 Source20: scilab.el
 Patch1:	0001-UseStandardXaw.patch
+Patch2: 0002-file-menu.patch
 URL: http://www.scilab.org/
-BuildRequires: perl tk-devel vte-devel
+BuildRequires: perl vte-devel
 BuildRequires: tcl-devel >= 8.5
+BuildRequires: tk-devel >= 8.5
 BuildRequires: xaw-devel
 BuildRequires: emacs-nox libgcj-devel gcc3.3-g77
 BuildRequires: gcc-java ocaml
 BuildRequires: ImageMagick sablotron
 BuildRequires: libpvm-devel
 Requires: tcl >= 8.5
-Requires: pvm tk gcc-gfortran
+Requires: tk >= 8.5
+Requires: pvm ocaml gcc-gfortran
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 ExclusiveArch: %ix86
 
@@ -32,12 +35,15 @@ rm -rf %{buildroot}
 %setup -q 
 
 %patch1 -p1 -b .xaw
+%patch2 -p1 -b .filemenu
 
 %build
 %configure2_5x	\
 	--enable-shared \
 	--with-g77 \
 	--with-java \
+	--with-ocaml \
+        --with-atlas-library=/usr/src/ATLAS \
 	--enable-static=no
 
 # fix java include path
