@@ -22,7 +22,6 @@ BuildRequires: libpvm-devel
 Requires: tcl >= 8.5
 Requires: tk >= 8.5
 Requires: pvm ocaml gcc-gfortran
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
 ExclusiveArch: %ix86
 
 %description
