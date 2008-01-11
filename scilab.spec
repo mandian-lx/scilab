@@ -82,14 +82,6 @@ convert X11_defaults/%{name}.xpm -geometry 32x32 %{buildroot}%{_iconsdir}/%{name
 convert X11_defaults/%{name}.xpm -geometry 16x16 %{buildroot}%{_miconsdir}/%{name}.png
 
 # Menu
-install -d %{buildroot}/%{_menudir}
-cat << EOF > %{buildroot}/%{_menudir}/%{name}
-?package(%{name}):command="%{_bindir}/%{name}" icon="%{name}.png" \
-                needs="X11" section="More Applications/Sciences/Mathematics" \
-		title="Scilab" \
-                longtitle="Environment for numerical computations" \
-		xdg="true"
-EOF
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -133,7 +125,6 @@ rm -rf %{buildroot}
 %{_miconsdir}/%{name}.png
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
-%{_menudir}/%{name}
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
 %_datadir/applications/*
