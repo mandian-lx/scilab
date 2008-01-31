@@ -3,7 +3,7 @@
 Summary: A high-level language for numerical computations
 Name:	 scilab
 Version: 4.1.2
-Release: %mkrel 1
+Release: %mkrel 2
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
@@ -15,7 +15,7 @@ BuildRequires: perl vte-devel
 BuildRequires: tcl-devel >= 8.5
 BuildRequires: tk-devel >= 8.5
 BuildRequires: xaw-devel
-BuildRequires: emacs-nox libgcj-devel gcc3.3-g77
+BuildRequires: emacs-nox libgcj-devel gcc-gfortran
 BuildRequires: gcc-java ocaml
 BuildRequires: ImageMagick sablotron
 BuildRequires: libpvm-devel
@@ -40,7 +40,7 @@ rm -rf %{buildroot}
 %build
 %configure2_5x	\
 	--enable-shared \
-	--with-g77 \
+	--with-gfortran \
 	--with-java \
 	--with-ocaml \
 	--enable-static=no
