@@ -3,7 +3,7 @@
 Summary: A high-level language for numerical computations
 Name:	 scilab
 Version: 4.1.2
-Release: %mkrel 3
+Release: %mkrel 4
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
@@ -113,7 +113,7 @@ install -m644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}
 
 # Links libtk8.5.so.0 to scilab's bindir to avoid runtime warnings about
 # devel files not installed
-ln -sf %{libdir}.libtk8.5.so.0 %{buildroot}/%{_libdir}/%{name}-%{version}/bin/libtk8.5.so
+ln -sf %{_libdir}.libtk8.5.so.0 %{buildroot}/%{_libdir}/%{name}-%{version}/bin/libtk8.5.so
 
 %post
 %{update_menus}
