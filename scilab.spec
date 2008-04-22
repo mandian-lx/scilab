@@ -3,13 +3,16 @@
 Summary: A high-level language for numerical computations
 Name:	 scilab
 Version: 4.1.2
-Release: %mkrel 2
+Release: %mkrel 3
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
 Source20: scilab.el
 Patch1:	0001-UseStandardXaw.patch
 Patch2: 0002-file-menu.patch
+# Fixes: scilab broken : missing symlink and error message
+# https://qa.mandriva.com/show_bug.cgi?id=40116
+Patch3: 0003-scipad.diff
 URL: http://www.scilab.org/
 BuildRequires: perl vte-devel
 BuildRequires: tcl-devel >= 8.5
@@ -36,6 +39,7 @@ rm -rf %{buildroot}
 
 %patch1 -p1 -b .xaw
 %patch2 -p1 -b .filemenu
+%patch3 -p1 -b .scipad
 
 %build
 %configure2_5x	\
@@ -107,6 +111,10 @@ done
 mkdir -p %{buildroot}/%{_sysconfdir}/emacs/site-start.d
 install -m644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}.el
 
+# Links libtk8.5.so.0 to scilab's bindir to avoid runtime warnings about
+# devel files not installed
+ln -sf %{libdir}.libtk8.5.so.0 %{buildroot}/%{_libdir}/%{name}-%{version}/bin/libtk8.5.so
+
 %post
 %{update_menus}
 
@@ -128,4 +136,3 @@ rm -rf %{buildroot}
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
 %_datadir/applications/*
-
