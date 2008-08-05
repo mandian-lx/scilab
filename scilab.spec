@@ -3,7 +3,7 @@
 Summary: A high-level language for numerical computations
 Name:	 scilab
 Version: 4.1.2
-Release: %mkrel 6
+Release: %mkrel 7
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
@@ -46,6 +46,11 @@ rm -rf %{buildroot}
 
 %build
 %configure2_5x	\
+%ifnarch {ix86}
+	--with-tk-library=%{_libdir} \
+	--with-tcl-library=%{_libdir} \
+	--with-pvm-library=%{_libdir} \
+%endif
 	--enable-shared \
 	--with-gfortran \
 	--with-java \
