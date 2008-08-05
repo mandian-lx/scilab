@@ -3,7 +3,7 @@
 Summary: A high-level language for numerical computations
 Name:	 scilab
 Version: 4.1.2
-Release: %mkrel 5
+Release: %mkrel 6
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
@@ -13,6 +13,9 @@ Patch2: 0002-file-menu.patch
 # Fixes: scilab broken : missing symlink and error message
 # https://qa.mandriva.com/show_bug.cgi?id=40116
 Patch3: 0003-scipad.diff
+# Fixes: scilab crashed when trying export graph
+# https://qa.mandriva.com/show_bug.cgi?id=40910
+Patch4: 0004-Xdefaults.patch
 URL: http://www.scilab.org/
 BuildRequires: perl vte-devel
 BuildRequires: tcl-devel >= 8.5
@@ -26,7 +29,6 @@ Requires: tcl >= 8.5
 Requires: tk >= 8.5
 Requires: pvm ocaml gcc-gfortran
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-ExclusiveArch: %ix86
 
 %description
 Scilab is a high-level language, primarily intended for numerical
@@ -40,6 +42,7 @@ rm -rf %{buildroot}
 %patch1 -p1 -b .xaw
 %patch2 -p1 -b .filemenu
 %patch3 -p1 -b .scipad
+%patch4 -p1 -b .xdefaults
 
 %build
 %configure2_5x	\
