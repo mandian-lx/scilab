@@ -1,4 +1,5 @@
 %define flavor emacs
+%define	pvmlib %{_datadir}/pvm3/lib
 
 Summary: A high-level language for numerical computations
 Name:	 scilab
@@ -45,12 +46,10 @@ rm -rf %{buildroot}
 %patch4 -p1 -b .xdefaults
 
 %build
-%configure2_5x	\
-%ifnarch {ix86}
+%configure2_5x \
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
-	--with-pvm-library=%{_libdir} \
-%endif
+	--with-pvm-library=%{pvmlib}/`%{pvmlib}/pvmgetarch` \
 	--enable-shared \
 	--with-gfortran \
 	--with-java \
