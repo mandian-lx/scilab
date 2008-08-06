@@ -4,7 +4,7 @@
 Summary: A high-level language for numerical computations
 Name:	 scilab
 Version: 4.1.2
-Release: %mkrel 8
+Release: %mkrel 9
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
@@ -75,7 +75,7 @@ perl -pi.orig -e '
 		s|/usr/bin|%{buildroot}%{_bindir}|g;
 		s|/usr/lib|%{buildroot}%{_libdir}|g;
 		s|ln -fs \$\(PREFIX\)/lib|ln -fs %{_libdir}|g;
-		s|^(DESTDIR=\$\(PREFIX\)/)lib|$1%{_lib}|;
+		s|$\(PREFIX\)/)lib|$1%{_lib}|g;
 	' Makefile
 
 perl -pi -e 's|/bin/sh5|/bin/sh|g;' bin/dold
