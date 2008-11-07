@@ -3,8 +3,8 @@
 
 Summary: A high-level language for numerical computations
 Name:	 scilab
-Version: 4.1.2
-Release: %mkrel 9
+Version: 5.0.3
+Release: %mkrel 1
 License: SCILAB
 Group: Sciences/Mathematics
 Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
@@ -26,9 +26,12 @@ BuildRequires: emacs-nox libgcj-devel gcc-gfortran
 BuildRequires: gcc-java ocaml
 BuildRequires: ImageMagick sablotron
 BuildRequires: libpvm-devel
+BuildRequires:	blas-devel
+BuildRequires:	lapack-devel fftw3-devel java-rpmbuild ant
 Requires: tcl >= 8.5
 Requires: tk >= 8.5
-Requires: pvm ocaml gcc-gfortran
+Requires: pvm 
+Requires: ocaml gcc-gfortran
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
@@ -40,10 +43,10 @@ documentation.
 rm -rf %{buildroot}
 %setup -q 
 
-%patch1 -p1 -b .xaw
-%patch2 -p1 -b .filemenu
-%patch3 -p1 -b .scipad
-%patch4 -p1 -b .xdefaults
+#%patch1 -p1 -b .xaw
+#%patch2 -p1 -b .filemenu
+#%patch3 -p1 -b .scipad
+#%patch4 -p1 -b .xdefaults
 
 %build
 %configure2_5x \
@@ -54,7 +57,13 @@ rm -rf %{buildroot}
 	--with-gfortran \
 	--with-java \
 	--with-ocaml \
-	--enable-static=no
+	--disable-static \
+	--with-blas-library=%{_libdir} \
+	--with-lapack-library=%{_libdir} \
+	--with-fftw \
+	--enable-build-localization \
+	--with-jdk=%{java_home}
+	
 
 # fix java include path
 perl -pi -e "s/JAVAINC=.*/JAVAINC=/" routines/Javasci/Makefile
