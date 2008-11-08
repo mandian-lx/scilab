@@ -18,21 +18,32 @@ Patch3: 0003-scipad.diff
 # https://qa.mandriva.com/show_bug.cgi?id=40910
 Patch4: 0004-Xdefaults.patch
 URL: http://www.scilab.org/
-BuildRequires: perl vte-devel
-BuildRequires: tcl-devel >= 8.5
-BuildRequires: tk-devel >= 8.5
-BuildRequires: xaw-devel
-BuildRequires: emacs-nox libgcj-devel gcc-gfortran
-BuildRequires: gcc-java ocaml
-BuildRequires: ImageMagick sablotron
-BuildRequires: libpvm-devel
+BuildRequires:	perl
+BuildRequires:	vte-devel
+BuildRequires:	tcl-devel >= 8.5
+BuildRequires:	tk-devel >= 8.5
+BuildRequires:	xaw-devel
+BuildRequires:	emacs-nox
+BuildRequires:	libgcj-devel
+BuildRequires:	gcc-gfortran
+BuildRequires:	gcc-java
+BuildRequires:	ocaml
+BuildRequires:	imagemagick
+BuildRequires:	sablotron
+BuildRequires:	libpvm-devel
 BuildRequires:	blas-devel
-BuildRequires:	lapack-devel fftw3-devel java-rpmbuild ant
-Requires: tcl >= 8.5
-Requires: tk >= 8.5
-Requires: pvm 
-Requires: ocaml gcc-gfortran
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
+BuildRequires:	lapack-devel
+BuildRequires:	fftw3-devel
+BuildRequires:	java-rpmbuild
+BuildRequires:	ant
+BuildRequires:	flexdock
+BuildRequires:	jgoodies-looks
+Requires:	tcl >= 8.5
+Requires:	tk >= 8.5
+Requires:	pvm
+Requires:	ocaml
+Requires:	gcc-gfortran
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Scilab is a high-level language, primarily intended for numerical
@@ -49,6 +60,8 @@ rm -rf %{buildroot}
 #%patch4 -p1 -b .xdefaults
 
 %build
+export JAVA_HOME="%{java_home}"
+
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
@@ -149,11 +162,11 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc ACKNOWLEDGEMENTS CHANGES license.txt licence.txt
-%_bindir/*
-%_libdir/scilab-*
+%{_bindir}/*
+%{_libdir}/scilab-*
 %{_miconsdir}/%{name}.png
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
-%_datadir/applications/*
+%{_datadir}/applications/*
