@@ -17,6 +17,7 @@ Patch3: 0003-scipad.diff
 # Fixes: scilab crashed when trying export graph
 # https://qa.mandriva.com/show_bug.cgi?id=40910
 Patch4: 0004-Xdefaults.patch
+Patch5:	scilab-5.0.3-find-jgoodies-looks.patch
 URL: http://www.scilab.org/
 BuildRequires:	perl
 BuildRequires:	vte-devel
@@ -38,11 +39,14 @@ BuildRequires:	java-rpmbuild
 BuildRequires:	ant
 BuildRequires:	flexdock
 BuildRequires:	jgoodies-looks
+BuildRequires:	umfpack-devel
+BuildRequires:	jogl
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	pvm
 Requires:	ocaml
 Requires:	gcc-gfortran
+Requires:	jogl
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -58,6 +62,7 @@ rm -rf %{buildroot}
 #%patch2 -p1 -b .filemenu
 #%patch3 -p1 -b .scipad
 #%patch4 -p1 -b .xdefaults
+%patch5 -p0
 
 %build
 export JAVA_HOME="%{java_home}"
@@ -66,22 +71,25 @@ export JAVA_HOME="%{java_home}"
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
 	--with-pvm-library=%{pvmlib}/`%{pvmlib}/pvmgetarch` \
-	--enable-shared \
-	--with-gfortran \
-	--with-java \
-	--with-ocaml \
-	--disable-static \
 	--with-blas-library=%{_libdir} \
 	--with-lapack-library=%{_libdir} \
+	--with-jdk=%{java_home} \
+	--with-umfpack \
+	--enable-shared \
+	--disable-static \
+	--with-gfortran \
+	--with-gcc \
+	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization \
-	--with-jdk=%{java_home}
+	--enable-build-swig \
+	--enable-build-giws
 	
 
 # fix java include path
 perl -pi -e "s/JAVAINC=.*/JAVAINC=/" routines/Javasci/Makefile
 
-make all
+%make
 
 cp -af %SOURCE20 .
 for i in %{flavor};do
