@@ -18,6 +18,7 @@ Patch3: 0003-scipad.diff
 # https://qa.mandriva.com/show_bug.cgi?id=40910
 Patch4: 0004-Xdefaults.patch
 Patch5:	scilab-5.0.3-find-jgoodies-looks.patch
+Patch6:	scilab-5.0.3-find-jhall.patch
 URL: http://www.scilab.org/
 BuildRequires:	perl
 BuildRequires:	vte-devel
@@ -41,6 +42,10 @@ BuildRequires:	flexdock
 BuildRequires:	jgoodies-looks
 BuildRequires:	umfpack-devel
 BuildRequires:	jogl
+# jhall == javahelp2
+BuildRequires:	javahelp2
+BuildRequires:	gluegen
+BuildRequires:	jrosetta
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	pvm
@@ -63,6 +68,7 @@ rm -rf %{buildroot}
 #%patch3 -p1 -b .scipad
 #%patch4 -p1 -b .xdefaults
 %patch5 -p0
+%patch6 -p0
 
 %build
 export JAVA_HOME="%{java_home}"
