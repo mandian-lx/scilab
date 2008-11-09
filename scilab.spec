@@ -46,6 +46,7 @@ BuildRequires:	jogl
 BuildRequires:	javahelp2
 BuildRequires:	gluegen
 BuildRequires:	jrosetta
+BuildRequires:	matio-devel
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	pvm
@@ -72,6 +73,7 @@ rm -rf %{buildroot}
 
 %build
 export JAVA_HOME="%{java_home}"
+%define _disable_ld_no_undefined 1
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
@@ -87,9 +89,7 @@ export JAVA_HOME="%{java_home}"
 	--with-gcc \
 	--with-ocaml \
 	--with-fftw \
-	--enable-build-localization \
-	--enable-build-swig \
-	--enable-build-giws
+	--enable-build-localization
 	
 
 # fix java include path
