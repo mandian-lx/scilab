@@ -1,25 +1,25 @@
 %define flavor emacs
 %define	pvmlib %{_datadir}/pvm3/lib
 
-Summary: A high-level language for numerical computations
-Name:	 scilab
-Version: 5.0.3
-Release: %mkrel 1
-License: SCILAB
-Group: Sciences/Mathematics
-Source0: http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
-Source20: scilab.el
-Patch1:	0001-UseStandardXaw.patch
-Patch2: 0002-file-menu.patch
+Summary:	A high-level language for numerical computations
+Name:		scilab
+Version:	5.0.3
+Release:	%mkrel 1
+License:	CeCILL
+Group:		Sciences/Mathematics
+URL:		http://www.scilab.org/
+Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
+Source20:	scilab.el
+Patch1:		0001-UseStandardXaw.patch
+Patch2:		0002-file-menu.patch
 # Fixes: scilab broken : missing symlink and error message
 # https://qa.mandriva.com/show_bug.cgi?id=40116
-Patch3: 0003-scipad.diff
+Patch3:		0003-scipad.diff
 # Fixes: scilab crashed when trying export graph
 # https://qa.mandriva.com/show_bug.cgi?id=40910
-Patch4: 0004-Xdefaults.patch
-Patch5:	scilab-5.0.3-find-jgoodies-looks.patch
-Patch6:	scilab-5.0.3-find-jhall.patch
-URL: http://www.scilab.org/
+Patch4:		0004-Xdefaults.patch
+Patch5:		%{name}-5.0.3-find-jgoodies-looks.patch
+Patch6:		%{name}-5.0.3-find-jhall.patch
 BuildRequires:	perl
 BuildRequires:	vte-devel
 BuildRequires:	tcl-devel >= 8.5
@@ -52,7 +52,12 @@ Requires:	tk >= 8.5
 Requires:	pvm
 Requires:	ocaml
 Requires:	gcc-gfortran
+Requires:	flexdock
+Requires:	jgoodies-looks
 Requires:	jogl
+Requires:	jrosetta
+Requires:	gluegen
+Requires:	javahelp2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -60,8 +65,14 @@ Scilab is a high-level language, primarily intended for numerical
 computations.  Scilab includes a number of toolboxes and on-line
 documentation.
 
+%package devel
+Summary:	Development files for %{name}
+Group:		Development/Other
+
+%description devel
+Development files and headers for %{name}.
+
 %prep
-rm -rf %{buildroot}
 %setup -q 
 
 #%patch1 -p1 -b .xaw
@@ -73,9 +84,19 @@ rm -rf %{buildroot}
 
 %build
 export JAVA_HOME="%{java_home}"
-%define _disable_ld_no_undefined 1
+#define _disable_ld_no_undefined 1
 
-%configure2_5x \
+CFLAGS="%{optflags}"
+export CFLAGS
+export CXXFLAGS=$CFLAGS
+export FFLAGS=$CFLAGS
+
+# (tpg) with macro compiling fails, under investigation
+./configure \
+	--bindir=%{_bindir} \
+	--libdir=%{_libdir} \
+	--prefix=%{_prefix} \
+	--datadir=%{_datadir} \
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
 	--with-pvm-library=%{pvmlib}/`%{pvmlib}/pvmgetarch` \
@@ -90,10 +111,6 @@ export JAVA_HOME="%{java_home}"
 	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization
-	
-
-# fix java include path
-perl -pi -e "s/JAVAINC=.*/JAVAINC=/" routines/Javasci/Makefile
 
 %make
 
@@ -105,32 +122,17 @@ done
 
 %install
 rm -rf %{buildroot}
-install -d -m0755 %{buildroot}%{_bindir}
-install -d -m0755 %{buildroot}%{_libdir}
-perl -pi.orig -e '
-		s|/usr/bin|%{buildroot}%{_bindir}|g;
-		s|/usr/lib|%{buildroot}%{_libdir}|g;
-		s|ln -fs \$\(PREFIX\)/lib|ln -fs %{_libdir}|g;
-		s|$\(PREFIX\)/)lib|$1%{_lib}|g;
-	' Makefile
-
-perl -pi -e 's|/bin/sh5|/bin/sh|g;' bin/dold
-make install PREFIX="%{buildroot}%{_prefix}" LIBPREFIX="%{buildroot}%{_libdir}"
-
-# Duplicated documentation
-rm -fr %{buildroot}/%{_defaultdocdir}/%{name}-%{version}
-
-perl -pi -e ' s|%{buildroot}||g;' %{buildroot}%{_libdir}/scilab-%{version}/bin/*
+%makeinstall_std
 
 # Icons
 install -d %{buildroot}/%{_miconsdir}
 install -d %{buildroot}/%{_liconsdir}
-convert X11_defaults/%{name}.xpm -geometry 48x48 %{buildroot}%{_liconsdir}/%{name}.png
-convert X11_defaults/%{name}.xpm -geometry 32x32 %{buildroot}%{_iconsdir}/%{name}.png
-convert X11_defaults/%{name}.xpm -geometry 16x16 %{buildroot}%{_miconsdir}/%{name}.png
+for i in "16x16" "32x32" "48x48"; do
+    mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
+    convert X11_defaults/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
+done
 
 # Menu
-
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
@@ -143,7 +145,6 @@ Type=Application
 Categories=X-MandrivaLinux-MoreApplications-Sciences-Mathematics;
 EOF
 
-
 # (X)emacs
 for i in %{flavor};do
 	mkdir -p %{buildroot}%{_datadir}/$i/site-lisp/
@@ -155,9 +156,7 @@ done
 mkdir -p %{buildroot}/%{_sysconfdir}/emacs/site-start.d
 install -m644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}.el
 
-# Links libtk8.5.so.0 to scilab's bindir to avoid runtime warnings about
-# devel files not installed
-ln -sf %{_libdir}/libtk8.5.so.0 %{buildroot}/%{_libdir}/%{name}-%{version}/bin/libtk8.5.so
+%find_lang %{name}
 
 %if %mdkversion < 200900
 %post
@@ -169,18 +168,21 @@ ln -sf %{_libdir}/libtk8.5.so.0 %{buildroot}/%{_libdir}/%{name}-%{version}/bin/l
 %{clean_menus}
 %endif
 
-
 %clean
 rm -rf %{buildroot}
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
-%doc ACKNOWLEDGEMENTS CHANGES license.txt licence.txt
+%doc ACKNOWLEDGEMENTS CHANGES_5.0.X license.txt RELEASE_NOTES README_Unix
 %{_bindir}/*
-%{_libdir}/scilab-*
-%{_miconsdir}/%{name}.png
-%{_iconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
+%{_libdir}/scilab
+%{_iconsdir}/hicolor/*/*/%{name}.png
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
-%{_datadir}/applications/*
+%{_datadir}/applications/*.desktop
+%{_datadir}/%{name}
+
+%files devel
+%defattr(-,root,root)
+%{_includedir}/%{name}
+%{_libdir}/pkgconfig/*.pc
