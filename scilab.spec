@@ -1,6 +1,3 @@
-%define flavor emacs
-%define	pvmlib %{_datadir}/pvm3/lib
-
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
@@ -20,19 +17,15 @@ Patch3:		0003-scipad.diff
 Patch4:		0004-Xdefaults.patch
 Patch5:		%{name}-5.0.3-find-jgoodies-looks.patch
 Patch6:		%{name}-5.0.3-find-jhall.patch
-BuildRequires:	perl
-BuildRequires:	vte-devel
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
-BuildRequires:	libgcj-devel
 BuildRequires:	gcc-gfortran
 BuildRequires:	gcc-java
 BuildRequires:	ocaml
 BuildRequires:	imagemagick
 BuildRequires:	sablotron
-BuildRequires:	libpvm-devel
 BuildRequires:	blas-devel
 BuildRequires:	lapack-devel
 BuildRequires:	fftw3-devel
@@ -47,6 +40,9 @@ BuildRequires:	javahelp2
 BuildRequires:	gluegen
 BuildRequires:	jrosetta
 BuildRequires:	matio-devel
+BuildRequires:	swig
+BuildRequires:	ncurses-devel
+BuildRequires:	pcre-devel
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	pvm
@@ -83,23 +79,16 @@ Development files and headers for %{name}.
 %patch6 -p0
 
 %build
+%define _disable_ld_no_undefined 1
+%define _disable_ld_as_needed 1
 export JAVA_HOME="%{java_home}"
-#define _disable_ld_no_undefined 1
 
-CFLAGS="%{optflags}"
-export CFLAGS
-export CXXFLAGS=$CFLAGS
-export FFLAGS=$CFLAGS
+#(tpg) without this hack scilab fails if compiled with macro for configure script
+sed -i -e 's/#undef exp10//g' modules/core/includes/machine.h.in
 
-# (tpg) with macro compiling fails, under investigation
-./configure \
-	--bindir=%{_bindir} \
-	--libdir=%{_libdir} \
-	--prefix=%{_prefix} \
-	--datadir=%{_datadir} \
+%configure2_5x \
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
-	--with-pvm-library=%{pvmlib}/`%{pvmlib}/pvmgetarch` \
 	--with-blas-library=%{_libdir} \
 	--with-lapack-library=%{_libdir} \
 	--with-jdk=%{java_home} \
@@ -110,12 +99,13 @@ export FFLAGS=$CFLAGS
 	--with-gcc \
 	--with-ocaml \
 	--with-fftw \
-	--enable-build-localization
+	--enable-build-localization \
+	--enable-build-swig
 
 %make
 
 cp -af %SOURCE20 .
-for i in %{flavor};do
+for i in emacs; do
 	$i -batch -q -no-site-file -f batch-byte-compile %{name}.el
 	mv %{name}.elc $i-%{name}.elc
 done
@@ -146,7 +136,7 @@ Categories=X-MandrivaLinux-MoreApplications-Sciences-Mathematics;
 EOF
 
 # (X)emacs
-for i in %{flavor};do
+for i in emacs; do
 	mkdir -p %{buildroot}%{_datadir}/$i/site-lisp/
 	mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
 	install -m644 $i-%{name}.elc %{buildroot}%{_datadir}/$i/site-lisp/
