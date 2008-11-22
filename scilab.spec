@@ -17,6 +17,7 @@ Patch3:		0003-scipad.diff
 Patch4:		0004-Xdefaults.patch
 Patch5:		%{name}-5.0.3-find-jgoodies-looks.patch
 Patch6:		%{name}-5.0.3-find-jhall.patch
+Patch7:		%{name}-5.0.3-find-batik.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -43,6 +44,11 @@ BuildRequires:	matio-devel
 BuildRequires:	swig
 BuildRequires:	ncurses-devel
 BuildRequires:	pcre-devel
+BuildRequires:	giws
+BuildRequires:	docbook-style-xsl
+BuildRequires:	batik
+BuildRequires:	saxon
+BuildRequires:	fop
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	pvm
@@ -77,6 +83,7 @@ Development files and headers for %{name}.
 #%patch4 -p1 -b .xdefaults
 %patch5 -p0
 %patch6 -p0
+%patch7 -p0
 
 %build
 %define _disable_ld_no_undefined 1
@@ -85,6 +92,9 @@ export JAVA_HOME="%{java_home}"
 
 #(tpg) without this hack scilab fails if compiled with macro for configure script
 sed -i -e 's/#undef exp10//g' modules/core/includes/machine.h.in
+
+#(tpg) fix giws filename
+sed -i -e 's/giws.py/giws/g' configure
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
@@ -100,7 +110,10 @@ sed -i -e 's/#undef exp10//g' modules/core/includes/machine.h.in
 	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization \
-	--enable-build-swig
+	--enable-build-help \
+	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.73.2" \
+	--enable-build-swig \
+	--enable-build-giws
 
 %make
 
