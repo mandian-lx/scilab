@@ -46,9 +46,10 @@ BuildRequires:	ncurses-devel
 BuildRequires:	pcre-devel
 BuildRequires:	giws
 BuildRequires:	docbook-style-xsl
-BuildRequires:	batik
-BuildRequires:	saxon
-BuildRequires:	fop
+#BuildRequires:	batik
+#BuildRequires:	saxon
+#BuildRequires:	fop
+BuildRequires:	python-libxml2
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	pvm
@@ -110,7 +111,7 @@ sed -i -e 's/giws.py/giws/g' configure
 	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization \
-	--enable-build-help \
+	--disable-build-help \
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.73.2" \
 	--enable-build-swig \
 	--enable-build-giws
