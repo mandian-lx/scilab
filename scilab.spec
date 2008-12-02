@@ -1,7 +1,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -18,12 +18,13 @@ Patch4:		0004-Xdefaults.patch
 Patch5:		%{name}-5.0.3-find-jgoodies-looks.patch
 Patch6:		%{name}-5.0.3-find-jhall.patch
 Patch7:		%{name}-5.0.3-find-batik.patch
+Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
 BuildRequires:	gcc-gfortran
-BuildRequires:	gcc-java
+#BuildRequires:	gcc-java
 BuildRequires:	ocaml
 BuildRequires:	imagemagick
 BuildRequires:	sablotron
@@ -46,13 +47,14 @@ BuildRequires:	ncurses-devel
 BuildRequires:	pcre-devel
 BuildRequires:	giws
 BuildRequires:	docbook-style-xsl
-#BuildRequires:	batik
-#BuildRequires:	saxon
-#BuildRequires:	fop
+BuildRequires:	batik
+BuildRequires:	saxon
+BuildRequires:	fop
+BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
+BuildRequires:	suitesparse-common-devel
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
-Requires:	pvm
 Requires:	ocaml
 Requires:	gcc-gfortran
 Requires:	flexdock
@@ -85,6 +87,7 @@ Development files and headers for %{name}.
 %patch5 -p0
 %patch6 -p0
 %patch7 -p0
+%patch8 -p0
 
 %build
 %define _disable_ld_no_undefined 1
@@ -111,14 +114,14 @@ sed -i -e 's/giws.py/giws/g' configure
 	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization \
-	--disable-build-help \
+	--enable-build-help \
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.73.2" \
 	--enable-build-swig \
 	--enable-build-giws
 
 %make
 
-cp -af %SOURCE20 .
+cp -af %{SOURCE20} .
 for i in emacs; do
 	$i -batch -q -no-site-file -f batch-byte-compile %{name}.el
 	mv %{name}.elc $i-%{name}.elc
@@ -146,7 +149,7 @@ Exec=scilab
 Icon=scilab
 Terminal=false
 Type=Application
-Categories=X-MandrivaLinux-MoreApplications-Sciences-Mathematics;
+Categories=Science;Math;
 EOF
 
 # (X)emacs
