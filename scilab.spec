@@ -19,6 +19,7 @@ Patch5:		%{name}-5.0.3-find-jgoodies-looks.patch
 Patch6:		%{name}-5.0.3-find-jhall.patch
 Patch7:		%{name}-5.0.3-find-batik.patch
 Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
+Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -88,6 +89,7 @@ Development files and headers for %{name}.
 %patch6 -p0
 %patch7 -p0
 %patch8 -p0
+%patch9 -p1
 
 %build
 %define _disable_ld_no_undefined 1
