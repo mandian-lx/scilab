@@ -65,6 +65,8 @@ Requires:	jrosetta
 Requires:	gluegen
 Requires:	javahelp2
 Requires:	xerces-j2
+Requires:	liblapack
+Requires:	libblas
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
