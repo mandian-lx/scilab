@@ -64,6 +64,7 @@ Requires:	jogl
 Requires:	jrosetta
 Requires:	gluegen
 Requires:	javahelp2
+Requires:	xerces-j2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
