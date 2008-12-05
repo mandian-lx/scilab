@@ -1,7 +1,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -25,7 +25,6 @@ BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
 BuildRequires:	gcc-gfortran
-#BuildRequires:	gcc-java
 BuildRequires:	ocaml
 BuildRequires:	imagemagick
 BuildRequires:	sablotron
@@ -64,7 +63,7 @@ Requires:	jogl
 Requires:	jrosetta
 Requires:	gluegen
 Requires:	javahelp2
-Requires:	xerces-j2
+Requires:	java > 1.5
 Requires:	liblapack
 Requires:	libblas
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
