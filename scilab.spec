@@ -20,6 +20,9 @@ Patch6:		%{name}-5.0.3-find-jhall.patch
 Patch7:		%{name}-5.0.3-find-batik.patch
 Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
 Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
+# Kludge (not fix) build for Tcl 8.6 (interp->result usage, TIP #330)
+# - AdamW 2008/12
+Patch10:	scilab-5.0.3-tcl86.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -92,6 +95,7 @@ Development files and headers for %{name}.
 %patch7 -p0
 %patch8 -p0
 %patch9 -p1
+%patch10 -p1 -b .tcl86
 
 %build
 %define _disable_ld_no_undefined 1
