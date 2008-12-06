@@ -1,7 +1,9 @@
+%define _requires_exceptions libblas.so.3
+
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -67,6 +69,7 @@ Requires:	jrosetta
 Requires:	gluegen
 Requires:	javahelp2
 Requires:	java > 1.5
+Requires:	xerces-j2
 Requires:	liblapack
 Requires:	libblas
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
