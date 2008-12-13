@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 8
+Release:	%mkrel 9
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -69,6 +69,10 @@ Requires:	jogl
 Requires:	jrosetta
 Requires:	gluegen
 Requires:	javahelp2
+Requires:	fop
+Requires:	saxon
+Requires:	batik
+Requires:	jeuclid-core
 Requires:	java > 1.5
 Requires:	xerces-j2
 Requires:	liblapack
