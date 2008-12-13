@@ -1,9 +1,9 @@
-%define _requires_exceptions libblas.so.3
+%define _requires_exceptions libblas.so.3\\|
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 7
+Release:	%mkrel 8
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -24,7 +24,8 @@ Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
 Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
 # Kludge (not fix) build for Tcl 8.6 (interp->result usage, TIP #330)
 # - AdamW 2008/12
-Patch10:	scilab-5.0.3-tcl86.patch
+Patch10:	%{name}-5.0.3-tcl86.patch
+Patch11:	%{name}-5.0.3-jre-path.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -72,6 +73,7 @@ Requires:	java > 1.5
 Requires:	xerces-j2
 Requires:	liblapack
 Requires:	libblas
+Requires:	fftw
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -99,17 +101,21 @@ Development files and headers for %{name}.
 %patch8 -p0
 %patch9 -p1
 %patch10 -p1 -b .tcl86
+%patch11 -p0
 
 %build
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed 1
-export JAVA_HOME="%{java_home}"
+export JAVA_HOME=%{java_home}
 
 #(tpg) without this hack scilab fails if compiled with macro for configure script
 sed -i -e 's/#undef exp10//g' modules/core/includes/machine.h.in
 
 #(tpg) fix giws filename
 sed -i -e 's/giws.py/giws/g' configure
+
+# (tpg) get rid of double shalshes in path
+sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' configure
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
@@ -143,8 +149,6 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 # Icons
-install -d %{buildroot}/%{_miconsdir}
-install -d %{buildroot}/%{_liconsdir}
 for i in "16x16" "32x32" "48x48"; do
     mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
     convert X11_defaults/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
