@@ -1,13 +1,16 @@
-%define _requires_exceptions libblas.so.3\\|
+%define _requires_exceptions libblas.so.3\\|jaxp_parser_impl\\|
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 9
+Release:	%mkrel 10
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
+Source1:	scilabsymbols.ttf
+Source2:	scilab_fr_FR_help.jar
+Source3:	scilab_en_US_help.jar
 Source20:	scilab.el
 Patch1:		0001-UseStandardXaw.patch
 Patch2:		0002-file-menu.patch
@@ -26,6 +29,8 @@ Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
 # - AdamW 2008/12
 Patch10:	%{name}-5.0.3-tcl86.patch
 Patch11:	%{name}-5.0.3-jre-path.patch
+# (tpg) scilab tries to link against devel library libfftw.so instead of libfftw3.so.3, this patch fixes this
+Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -78,6 +83,12 @@ Requires:	xerces-j2
 Requires:	liblapack
 Requires:	libblas
 Requires:	fftw
+Requires:	libmatio
+Requires:	libumfpack
+Requires:	docbook-style-xsl
+Requires:	swig
+Requires:	giws
+Requires:	sablotron
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -106,6 +117,7 @@ Development files and headers for %{name}.
 %patch9 -p1
 %patch10 -p1 -b .tcl86
 %patch11 -p0
+%patch12 -p0
 
 %build
 %define _disable_ld_no_undefined 1
@@ -138,7 +150,8 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--enable-build-help \
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.73.2" \
 	--enable-build-swig \
-	--enable-build-giws
+	--enable-build-giws \
+	--with-install-help-xml
 
 %make
 
@@ -157,6 +170,9 @@ for i in "16x16" "32x32" "48x48"; do
     mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
     convert X11_defaults/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
 done
+
+# (tpg) get rid of this
+rm %{buildroot}%{_datadir}/%{name}/README_Windows.txt
 
 # Menu
 mkdir -p %{buildroot}%{_datadir}/applications
@@ -181,6 +197,17 @@ done
 
 mkdir -p %{buildroot}/%{_sysconfdir}/emacs/site-start.d
 install -m644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}.el
+
+# (tpg) correct path for *.so java libraries
+sedi -i -e 's#/usr/lib/jni#%{_libdir}#g' value%{buildroot}%{_datadir}/%{name}/etc/librarypath.xml
+
+# (tpg) fonts
+mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
+install -m644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
+
+# (tpg) help files
+install -m644 %{SOURCE2} %{buildroot}%{_datadir}/%{name}/modules/helptools/jar/
+install -m644 %{SOURCE3} %{buildroot}%{_datadir}/%{name}/modules/helptools/jar/
 
 %find_lang %{name}
 
