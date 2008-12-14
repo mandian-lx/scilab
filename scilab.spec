@@ -199,7 +199,7 @@ mkdir -p %{buildroot}/%{_sysconfdir}/emacs/site-start.d
 install -m644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}.el
 
 # (tpg) correct path for *.so java libraries
-sedi -i -e 's#/usr/lib/jni#%{_libdir}#g' value%{buildroot}%{_datadir}/%{name}/etc/librarypath.xml
+sed -i -e 's#/usr/lib/jni/#%{_libdir}#g' %{buildroot}%{_datadir}/%{name}/etc/librarypath.xml
 
 # (tpg) fonts
 mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
