@@ -124,6 +124,7 @@ Development files and headers for %{name}.
 %build
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed 1
+%define Werror_cflags %nil
 export JAVA_HOME=%{java_home}
 
 #(tpg) without this hack scilab fails if compiled with macro for configure script
