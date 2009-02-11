@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.0.3
-Release:	%mkrel 11
+Release:	%mkrel 12
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -105,7 +105,7 @@ Group:		Development/Other
 Development files and headers for %{name}.
 
 %prep
-%setup -q 
+%setup -q
 
 #%patch1 -p1 -b .xaw
 #%patch2 -p1 -b .filemenu
