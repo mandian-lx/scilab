@@ -27,7 +27,7 @@ Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
 Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
 # Kludge (not fix) build for Tcl 8.6 (interp->result usage, TIP #330)
 # - AdamW 2008/12
-Patch10:	%{name}-5.0.3-tcl86.patch
+Patch10:	%{name}-5.1-tcl86.patch
 Patch11:	%{name}-5.0.3-jre-path.patch
 # (tpg) scilab tries to link against devel library libfftw.so instead of libfftw3.so.3, this patch fixes this
 Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
@@ -114,24 +114,18 @@ Development files and headers for %{name}.
 %patch5 -p0
 %patch6 -p0
 %patch7 -p0
-%patch8 -p0
-%patch9 -p1
+#%patch8 -p0
+#%patch9 -p1
 %patch10 -p1 -b .tcl86
-%patch11 -p0
-%patch12 -p0
-%patch13 -p0
+#%patch11 -p0
+#%patch12 -p0
+#%patch13 -p0
 
 %build
 %define _disable_ld_no_undefined 1
 %define _disable_ld_as_needed 1
 %define Werror_cflags %nil
 export JAVA_HOME=%{java_home}
-
-#(tpg) without this hack scilab fails if compiled with macro for configure script
-sed -i -e 's/#undef exp10//g' modules/core/includes/machine.h.in
-
-#(tpg) fix giws filename
-sed -i -e 's/giws.py/giws/g' configure
 
 # (tpg) get rid of double shalshes in path
 sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' configure
@@ -154,6 +148,7 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.73.2" \
 	--enable-build-swig \
 	--enable-build-giws \
+	--without-pvm \
 	--with-install-help-xml
 
 %make
@@ -171,7 +166,7 @@ rm -rf %{buildroot}
 # Icons
 for i in "16x16" "32x32" "48x48"; do
     mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
-    convert X11_defaults/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
+    convert icons/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
 done
 
 # (tpg) get rid of this
