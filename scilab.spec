@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -32,6 +32,9 @@ Patch11:	%{name}-5.0.3-jre-path.patch
 # (tpg) scilab tries to link against devel library libfftw.so instead of libfftw3.so.3, this patch fixes this
 Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
 Patch13:	%{name}-5.0.3-correct-LD_LIBRARY_PATH.patch
+# Fixes: scilab 5.1 segfaults on startup
+# https://qa.mandriva.com/show_bug.cgi?id=48127
+Patch14:	%{name}-5.1-libxml2-2.7.3-memory-corruption.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -120,6 +123,7 @@ Development files and headers for %{name}.
 #%patch11 -p0
 #%patch12 -p0
 #%patch13 -p0
+%patch14 -p1
 
 %build
 %define _disable_ld_no_undefined 1
