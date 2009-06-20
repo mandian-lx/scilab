@@ -2,12 +2,12 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.1
-Release:	%mkrel 3
+Version:	5.1.1
+Release:	%mkrel 1
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
-Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.bz2
+Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.lzma
 Source1:	scilabsymbols.ttf
 Source2:	scilab_fr_FR_help.jar
 Source3:	scilab_en_US_help.jar
