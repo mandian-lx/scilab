@@ -32,9 +32,6 @@ Patch11:	%{name}-5.0.3-jre-path.patch
 # (tpg) scilab tries to link against devel library libfftw.so instead of libfftw3.so.3, this patch fixes this
 Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
 Patch13:	%{name}-5.0.3-correct-LD_LIBRARY_PATH.patch
-# Fixes: scilab 5.1 segfaults on startup
-# https://qa.mandriva.com/show_bug.cgi?id=48127
-Patch14:	%{name}-5.1-libxml2-2.7.3-memory-corruption.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -68,6 +65,7 @@ BuildRequires:	fop
 BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
 BuildRequires:	suitesparse-common-devel
+BuildRequires:	xml-commons-jaxp-1.3-apis >= 1.3.04-3.0.4
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
@@ -123,7 +121,6 @@ Development files and headers for %{name}.
 #%patch11 -p0
 #%patch12 -p0
 #%patch13 -p0
-%patch14 -p1
 
 %build
 %define _disable_ld_no_undefined 1
@@ -132,7 +129,7 @@ Development files and headers for %{name}.
 export JAVA_HOME=%{java_home}
 
 # (tpg) get rid of double shalshes in path
-sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' configure
+sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-jaxp-1.3-apis-ext#g' configure
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
@@ -154,6 +151,9 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--enable-build-giws \
 	--without-pvm \
 	--with-install-help-xml
+
+# fix to bug http://bugzilla.scilab.org/show_bug.cgi?id=4478
+%__rm modules/*/src/jni/GiwsException.*
 
 %make
 
