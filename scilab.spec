@@ -20,8 +20,8 @@ Patch3:		0003-scipad.diff
 # Fixes: scilab crashed when trying export graph
 # https://qa.mandriva.com/show_bug.cgi?id=40910
 Patch4:		0004-Xdefaults.patch
-Patch5:		%{name}-5.0.3-find-jgoodies-looks.patch
-Patch6:		%{name}-5.0.3-find-jhall.patch
+Patch5:		%{name}-5.2.0-find-jgoodies-looks.patch
+Patch6:		%{name}-5.2.0-find-jhall.patch
 Patch7:		%{name}-5.0.3-find-batik.patch
 Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
 Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
@@ -66,6 +66,8 @@ BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
 BuildRequires:	suitesparse-common-devel
 BuildRequires:	xml-commons-jaxp-1.3-apis >= 1.3.04-3.0.4
+BuildRequires:	jgraphx
+BuildRequires:	jlatexmath
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
@@ -91,6 +93,8 @@ Requires:	docbook-style-xsl
 Requires:	swig
 Requires:	giws
 Requires:	sablotron
+Requires:	jgraphx
+Requires:	jlatexmath
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -114,10 +118,10 @@ Development files and headers for %{name}.
 #%patch4 -p1 -b .xdefaults
 %patch5 -p0
 %patch6 -p0
-%patch7 -p0
+#%patch7 -p0
 #%patch8 -p0
 #%patch9 -p1
-%patch10 -p1 -b .tcl86
+#%patch10 -p1 -b .tcl86
 #%patch11 -p0
 #%patch12 -p0
 #%patch13 -p0
@@ -137,6 +141,7 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--with-blas-library=%{_libdir} \
 	--with-lapack-library=%{_libdir} \
 	--with-jdk=%{java_home} \
+	--disable-rpath \
 	--with-umfpack \
 	--enable-shared \
 	--disable-static \
@@ -150,7 +155,8 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--enable-build-swig \
 	--enable-build-giws \
 	--without-pvm \
-	--with-install-help-xml
+	--with-install-help-xml \
+	--without-hdf5
 
 # fix to bug http://bugzilla.scilab.org/show_bug.cgi?id=4478
 %__rm modules/*/src/jni/GiwsException.*
