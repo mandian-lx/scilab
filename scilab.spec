@@ -68,6 +68,8 @@ BuildRequires:	suitesparse-common-devel
 BuildRequires:	xml-commons-jaxp-1.3-apis >= 1.3.04-3.0.4
 BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
+BuildRequires:	antlr
+BuildRequires:	jakarta-commons-beanutils
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
