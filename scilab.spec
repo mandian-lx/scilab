@@ -70,6 +70,7 @@ BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
 BuildRequires:	antlr
 BuildRequires:	jakarta-commons-beanutils
+BuildConflicts:	termcap-devel
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
@@ -159,9 +160,6 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--without-pvm \
 	--with-install-help-xml \
 	--without-hdf5
-
-# fix to bug http://bugzilla.scilab.org/show_bug.cgi?id=4478
-%__rm modules/*/src/jni/GiwsException.*
 
 %make
 
