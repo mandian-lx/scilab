@@ -70,6 +70,9 @@ BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
 BuildRequires:	antlr
 BuildRequires:	jakarta-commons-beanutils
+%if %mdkversion > 201000
+BuildRequires:	hdf-java
+%endif
 BuildConflicts:	termcap-devel
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
@@ -159,7 +162,11 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--enable-build-giws \
 	--without-pvm \
 	--with-install-help-xml \
+%if %mdkversion > 201000
+	--with-hdf5 \
+%else
 	--without-hdf5 \
+%endif
 	--without-scicos
 
 %make
