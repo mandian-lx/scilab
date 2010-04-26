@@ -2,7 +2,7 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.2.0
+Version:	5.2.2
 Release:	%mkrel 1
 License:	CeCILL
 Group:		Sciences/Mathematics
@@ -119,8 +119,8 @@ Development files and headers for %{name}.
 #%patch2 -p1 -b .filemenu
 #%patch3 -p1 -b .scipad
 #%patch4 -p1 -b .xdefaults
-%patch5 -p0
-%patch6 -p0
+#%patch5 -p0
+#%patch6 -p0
 #%patch7 -p0
 #%patch8 -p0
 #%patch9 -p1
@@ -159,7 +159,8 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--enable-build-giws \
 	--without-pvm \
 	--with-install-help-xml \
-	--without-hdf5
+	--without-hdf5 \
+	--without-scicos
 
 %make
 
