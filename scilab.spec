@@ -72,6 +72,7 @@ BuildRequires:	antlr
 BuildRequires:	jakarta-commons-beanutils
 %if %mdkversion > 201000
 BuildRequires:	hdf-java
+BuildRequires:	hdf5-devel
 %endif
 BuildConflicts:	termcap-devel
 Requires:	tcl >= 8.5
