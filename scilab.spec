@@ -170,7 +170,8 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 %else
 	--without-hdf5 \
 %endif
-	--without-scicos
+	--without-scicos \
+	--enable-relocatable
 
 %make
 
