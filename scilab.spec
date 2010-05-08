@@ -9,8 +9,6 @@ Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
 Source1:	scilabsymbols.ttf
-Source2:	scilab_fr_FR_help.jar
-Source3:	scilab_en_US_help.jar
 Source20:	scilab.el
 Patch1:		0001-UseStandardXaw.patch
 Patch2:		0002-file-menu.patch
@@ -71,11 +69,13 @@ BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
 BuildRequires:	antlr
 BuildRequires:	jakarta-commons-beanutils
+BuildRequires:	chrpath
 %if %mdkversion > 201000
 BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
 %endif
 BuildConflicts:	termcap-devel
+BuildConflicts:	junit
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
@@ -144,6 +144,9 @@ export JAVA_HOME=%{java_home}
 # (tpg) get rid of double shalshes in path
 sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-jaxp-1.3-apis-ext#g' configure
 
+# (tpg) fix jgraphx version compare logic
+sed -i -e 's#mxGraph.VERSION) > 0#mxGraph.VERSION) < 0#g' configure
+
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
@@ -173,7 +176,7 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--without-scicos \
 	--enable-relocatable
 
-%make
+%make all doc
 
 cp -af %{SOURCE20} .
 for i in emacs; do
@@ -184,6 +187,9 @@ done
 %install
 rm -rf %{buildroot}
 %makeinstall_std
+
+# (tpg) delete empty dirs
+find %{buildroot}%{_datadir}/%{name} -type d -empty -delete
 
 # Icons
 for i in "16x16" "32x32" "48x48"; do
@@ -225,9 +231,18 @@ sed -i -e 's#/usr/lib/jni/#%{_libdir}#g' %{buildroot}%{_datadir}/%{name}/etc/lib
 mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
 install -m644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
 
-# (tpg) help files
-install -m644 %{SOURCE2} %{buildroot}%{_datadir}/%{name}/modules/helptools/jar/
-install -m644 %{SOURCE3} %{buildroot}%{_datadir}/%{name}/modules/helptools/jar/
+# (tpg) nuke rpath
+for file in %{buildroot}%{_bindir}; do \
+    chrpath -d $$file; \
+done
+
+# (tpg) get rid of files with licenses
+rm %{buildroot}%{_datadir}/%{name}/modules/*/license.txt
+rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt 
+rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/BWidget-*/LICENSE.txt
+rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/sciGUI/license.txt
+rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt 
+rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 
 %find_lang %{name}
 
@@ -246,7 +261,7 @@ rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc ACKNOWLEDGEMENTS CHANGES_5.0.X license.txt RELEASE_NOTES README_Unix
+%doc ACKNOWLEDGEMENTS CHANGES_5.2.X license.txt RELEASE_NOTES README_Unix
 %{_bindir}/*
 %{_libdir}/scilab
 %{_iconsdir}/hicolor/*/*/%{name}.png
