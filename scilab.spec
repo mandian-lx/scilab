@@ -232,8 +232,8 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
 install -m644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
 
 # (tpg) nuke rpath
-for file in %{buildroot}%{_bindir}; do \
-    chrpath -d $$file; \
+for file in %{buildroot}%{_bindir}/*; do \
+    chrpath -d $file; \
 done
 
 # (tpg) get rid of files with licenses
