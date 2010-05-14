@@ -232,7 +232,7 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
 install -m644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
 
 # (tpg) nuke rpath
-for file in %{buildroot}%{_bindir}/*; do \
+for file in %{buildroot}%{_bindir}/{intersci,scilab-bin,scilab-cli-bin}; do \
     chrpath -d $file; \
 done
 
