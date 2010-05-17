@@ -31,6 +31,8 @@ Patch11:	%{name}-5.0.3-jre-path.patch
 Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
 Patch13:	%{name}-5.0.3-correct-LD_LIBRARY_PATH.patch
 Patch14:	%{name}-5.2.2-jhdf_2.6.patch
+# (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
+Patch15:	%{name}-5.2.2-incerase-java-heap-size.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -134,6 +136,7 @@ Development files and headers for %{name}.
 #%patch12 -p0
 #%patch13 -p0
 %patch14 -p1
+%patch15 -p1
 
 %build
 %define _disable_ld_no_undefined 1
