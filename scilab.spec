@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.2.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -33,6 +33,10 @@ Patch13:	%{name}-5.0.3-correct-LD_LIBRARY_PATH.patch
 Patch14:	%{name}-5.2.2-jhdf_2.6.patch
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
 Patch15:	%{name}-5.2.2-incerase-java-heap-size.patch
+# (tpg) correct LD_PRELOAD
+Patch16:	%{name}-5.2.2-fix-ld-preload-paths.patch
+# (tpg) add more paths
+Patch17:	%{name}-5.2.2-add-more-paths-librarypath.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -105,6 +109,9 @@ Requires:	giws
 Requires:	sablotron
 Requires:	jgraphx
 Requires:	jlatexmath
+%if %mdkversion > 201000
+Requires:	hdf-java
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -137,6 +144,8 @@ Development files and headers for %{name}.
 #%patch13 -p0
 %patch14 -p1
 %patch15 -p0
+%patch16 -p0
+%patch17 -p0
 
 %build
 %define _disable_ld_no_undefined 1
