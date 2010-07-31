@@ -147,7 +147,7 @@ Development files and headers for %{name}.
 %patch15 -p0
 %patch16 -p0
 %patch17 -p0
-%patch18 -p0
+%patch18 -p1
 
 %build
 %define _disable_ld_no_undefined 1
