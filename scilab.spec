@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.2.2
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -37,6 +37,7 @@ Patch15:	%{name}-5.2.2-incerase-java-heap-size.patch
 Patch16:	%{name}-5.2.2-fix-ld-preload-paths.patch
 # (tpg) add more paths
 Patch17:	%{name}-5.2.2-add-more-paths-librarypath.patch
+Patch18:	scilab-5.2.2-set-java-lib-path.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -146,6 +147,7 @@ Development files and headers for %{name}.
 %patch15 -p0
 %patch16 -p0
 %patch17 -p0
+%patch18 -p0
 
 %build
 %define _disable_ld_no_undefined 1
