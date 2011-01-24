@@ -10,34 +10,15 @@ URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
 Source1:	scilabsymbols.ttf
 Source20:	scilab.el
-Patch1:		0001-UseStandardXaw.patch
-Patch2:		0002-file-menu.patch
-# Fixes: scilab broken : missing symlink and error message
-# https://qa.mandriva.com/show_bug.cgi?id=40116
-Patch3:		0003-scipad.diff
-# Fixes: scilab crashed when trying export graph
-# https://qa.mandriva.com/show_bug.cgi?id=40910
-Patch4:		0004-Xdefaults.patch
-Patch5:		%{name}-5.2.0-find-jgoodies-looks.patch
-Patch6:		%{name}-5.2.0-find-jhall.patch
-Patch7:		%{name}-5.0.3-find-batik.patch
-Patch8:		%{name}-5.0.3-find-jeuclid-core.patch
-Patch9:		%{name}-5.0.3-adapt-to-newer-jeuclid-core.patch
-# Kludge (not fix) build for Tcl 8.6 (interp->result usage, TIP #330)
-# - AdamW 2008/12
-Patch10:	%{name}-5.1-tcl86.patch
-Patch11:	%{name}-5.0.3-jre-path.patch
-# (tpg) scilab tries to link against devel library libfftw.so instead of libfftw3.so.3, this patch fixes this
-Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
-Patch13:	%{name}-5.0.3-correct-LD_LIBRARY_PATH.patch
-Patch14:	%{name}-5.3.0-jhdf_2.6.patch
+Patch0:		%{name}-5.3.0-jhdf_2.6.patch
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
-Patch15:	%{name}-5.3.0-increase-java-heap-size.patch
+Patch1:		%{name}-5.3.0-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch16:	%{name}-5.3.0-fix-ld-preload-paths.patch
+Patch2:		%{name}-5.3.0-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch17:	%{name}-5.3.0-add-more-paths-librarypath.patch
-Patch18:	scilab-5.3.0-set-java-lib-path.patch
+Patch3:		%{name}-5.3.0-add-more-paths-librarypath.patch
+Patch4:		%{name}-5.3.0-set-java-lib-path.patch
+Patch5:		%{name}-5.3.0-jar-names.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -81,6 +62,7 @@ BuildRequires:	chrpath
 BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
 %endif
+BuildRequires:	xmlgraphics-commons
 BuildConflicts:	termcap-devel
 BuildConflicts:	junit
 Requires:	tcl >= 8.5
@@ -130,24 +112,12 @@ Development files and headers for %{name}.
 %prep
 %setup -q
 
-#%patch1 -p1 -b .xaw
-#%patch2 -p1 -b .filemenu
-#%patch3 -p1 -b .scipad
-#%patch4 -p1 -b .xdefaults
-#%patch5 -p0
-#%patch6 -p0
-#%patch7 -p0
-#%patch8 -p0
-#%patch9 -p1
-#%patch10 -p1 -b .tcl86
-#%patch11 -p0
-#%patch12 -p0
-#%patch13 -p0
-%patch14 -p1
-%patch15 -p1
-%patch16 -p1
-%patch17 -p1
-%patch18 -p1
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 %define _disable_ld_no_undefined 1
@@ -190,7 +160,8 @@ autoreconf -ifs
 %else
 	--without-hdf5 \
 %endif
-	--without-scicos \
+	--with-gui \
+	--with-scicos \
 	--enable-relocatable
 
 %make all doc
