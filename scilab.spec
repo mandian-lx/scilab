@@ -278,7 +278,7 @@ rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc ACKNOWLEDGEMENTS CHANGES_5.2.X license.txt RELEASE_NOTES README_Unix
+%doc ACKNOWLEDGEMENTS CHANGES_5.3.X license.txt RELEASE_NOTES_5.3.X README_Unix
 %{_bindir}/*
 %{_libdir}/scilab
 %{_iconsdir}/hicolor/*/*/%{name}.png
