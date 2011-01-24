@@ -2,8 +2,8 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.2.2
-Release:	%mkrel 3
+Version:	5.3.0
+Release:	%mkrel 1
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -30,14 +30,14 @@ Patch11:	%{name}-5.0.3-jre-path.patch
 # (tpg) scilab tries to link against devel library libfftw.so instead of libfftw3.so.3, this patch fixes this
 Patch12:	%{name}-5.0.3-link-against-main-libfftw3-library.patch
 Patch13:	%{name}-5.0.3-correct-LD_LIBRARY_PATH.patch
-Patch14:	%{name}-5.2.2-jhdf_2.6.patch
+Patch14:	%{name}-5.3.0-jhdf_2.6.patch
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
-Patch15:	%{name}-5.2.2-incerase-java-heap-size.patch
+Patch15:	%{name}-5.3.0-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch16:	%{name}-5.2.2-fix-ld-preload-paths.patch
+Patch16:	%{name}-5.3.0-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch17:	%{name}-5.2.2-add-more-paths-librarypath.patch
-Patch18:	scilab-5.2.2-set-java-lib-path.patch
+Patch17:	%{name}-5.3.0-add-more-paths-librarypath.patch
+Patch18:	scilab-5.3.0-set-java-lib-path.patch
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
@@ -144,9 +144,9 @@ Development files and headers for %{name}.
 #%patch12 -p0
 #%patch13 -p0
 %patch14 -p1
-%patch15 -p0
-%patch16 -p0
-%patch17 -p0
+%patch15 -p1
+%patch16 -p1
+%patch17 -p1
 %patch18 -p1
 
 %build
@@ -160,6 +160,9 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 
 # (tpg) fix jgraphx version compare logic
 sed -i -e 's#mxGraph.VERSION) > 0#mxGraph.VERSION) < 0#g' configure
+
+# patched configure.ac
+autoreconf -ifs
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
