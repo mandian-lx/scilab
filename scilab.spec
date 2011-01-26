@@ -20,6 +20,7 @@ Patch3:		%{name}-5.3.0-add-more-paths-librarypath.patch
 Patch4:		%{name}-5.3.0-set-java-lib-path.patch
 Patch5:		%{name}-5.3.0-jar-names.patch
 Patch6:		%{name}-5.3.0-modelica.patch
+BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
