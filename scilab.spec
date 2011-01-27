@@ -26,7 +26,7 @@ BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
 BuildRequires:	gcc-gfortran
-BuildRequires:	gomp-devel
+BuildRequires:	libgomp-devel
 BuildRequires:	ocaml
 BuildRequires:	imagemagick
 BuildRequires:	sablotron
