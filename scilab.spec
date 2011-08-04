@@ -2,24 +2,24 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.3.0
-Release:	%mkrel 2
+Version:	5.3.3
+Release:	%mkrel 1
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
 Source1:	scilabsymbols.ttf
 Source20:	scilab.el
-Patch0:		%{name}-5.3.0-jhdf_2.6.patch
+Patch0:		%{name}-5.3.3-jhdf_2.6.patch
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
-Patch1:		%{name}-5.3.0-increase-java-heap-size.patch
+Patch1:		%{name}-5.3.3-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch2:		%{name}-5.3.0-fix-ld-preload-paths.patch
+Patch2:		%{name}-5.3.3-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch3:		%{name}-5.3.0-add-more-paths-librarypath.patch
-Patch4:		%{name}-5.3.0-set-java-lib-path.patch
-Patch5:		%{name}-5.3.0-jar-names.patch
-Patch6:		%{name}-5.3.0-modelica.patch
+Patch3:		%{name}-5.3.3-add-more-paths-librarypath.patch
+Patch4:		%{name}-5.3.3-set-java-lib-path.patch
+Patch5:		%{name}-5.3.3-jar-names.patch
+Patch6:		%{name}-5.3.3-modelica.patch
 BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
