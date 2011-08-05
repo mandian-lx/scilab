@@ -35,6 +35,7 @@ BuildRequires:	lapack-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	java-rpmbuild
 BuildRequires:	ant
+BuildRequires:	checkstyle
 BuildRequires:	flexdock
 BuildRequires:	jgoodies-looks
 BuildRequires:	umfpack-devel
@@ -54,6 +55,7 @@ BuildRequires:	saxon
 BuildRequires:	fop
 BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
+BuildRequires:	qdox
 BuildRequires:	suitesparse-common-devel
 BuildRequires:	xml-commons-jaxp-1.3-apis >= 1.3.04-3.0.4
 BuildRequires:	jgraphx
@@ -68,6 +70,17 @@ BuildRequires:	hdf5-devel
 BuildRequires:	xmlgraphics-commons
 BuildConflicts:	termcap-devel
 BuildConflicts:	junit
+
+# build of 5.3.3 with 5.3.0 installed fails in doc generation due to not
+# finding class org/scilab/forge/scidoc/SciDocMain in call:
+# modules/helptools/sci_gateway/cpp/sci_buildDocv2.cpp:
+#	doc = new org_scilab_modules_helptools::SciDocMain(getScilabJavaVM());
+BuildConflicts:	scilab
+# FIXME there should be a better way like some environment variable or
+# something to prevent it from using installed scilab files, and should
+# have no issues in the build system, so, just add the BuildConflicts
+# in case someone tries to rebuild outside of a chroot.
+
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
@@ -154,7 +167,7 @@ autoreconf -ifs
 	--with-fftw \
 	--enable-build-localization \
 	--enable-build-help \
-	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.73.2" \
+	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.75.2" \
 	--enable-build-swig \
 	--enable-build-giws \
 	--without-pvm \
@@ -186,7 +199,7 @@ find %{buildroot}%{_datadir}/%{name} -type d -empty -delete
 # Icons
 for i in "16x16" "32x32" "48x48"; do
     mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
-    convert icons/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
+    convert desktop/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
 done
 
 # (tpg) get rid of this
