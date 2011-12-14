@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.3.3
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -20,6 +20,9 @@ Patch3:		%{name}-5.3.3-add-more-paths-librarypath.patch
 Patch4:		%{name}-5.3.3-set-java-lib-path.patch
 Patch5:		%{name}-5.3.3-jar-names.patch
 Patch6:		%{name}-5.3.3-modelica.patch
+Patch7:		%{name}-5.3.3-Update-saxon-dependency-wrong-version.patch
+# based on upstream configure patch
+Patch8:		%{name}-5.3.3-build.incl.xml.patch
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
@@ -71,7 +74,7 @@ BuildRequires:	hdf5-devel
 %endif
 BuildRequires:	xmlgraphics-commons
 BuildConflicts:	termcap-devel
-BuildConflicts:	junit
+#BuildConflicts:	junit
 
 # build of 5.3.3 with 5.3.0 installed fails in doc generation due to not
 # finding class org/scilab/forge/scidoc/SciDocMain in call:
@@ -137,6 +140,8 @@ Development files and headers for %{name}.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 %define _disable_ld_no_undefined 1
