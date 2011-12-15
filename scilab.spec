@@ -150,7 +150,7 @@ Development files and headers for %{name}.
 export JAVA_HOME=%{java_home}
 
 # (tpg) get rid of double shalshes in path
-sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-jaxp-1.3-apis-ext#g' configure
+sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-apis-ext#g' configure
 
 # (tpg) fix jgraphx version compare logic
 sed -i -e 's#mxGraph.VERSION) > 0#mxGraph.VERSION) < 0#g' configure
