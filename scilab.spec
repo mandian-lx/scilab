@@ -24,7 +24,6 @@ Patch7:		%{name}-5.3.3-Update-saxon-dependency-wrong-version.patch
 # based on upstream configure patch
 Patch8:		%{name}-5.3.3-build.incl.xml.patch
 BuildRequires:	automake
-BuildRequires:	batik
 BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
@@ -63,7 +62,7 @@ BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
 BuildRequires:	qdox
 BuildRequires:	suitesparse-common-devel
-BuildRequires:	xml-commons-jaxp-1.3-apis >= 1.3.04-3.0.4
+BuildRequires:	xml-commons-apis >= 1.4.01
 BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
 BuildRequires:	antlr
