@@ -62,7 +62,7 @@ BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
 BuildRequires:	qdox
 BuildRequires:	suitesparse-common-devel
-BuildRequires:	xml-commons-apis >= 1.4.01
+BuildRequires:	xml-commons-apis >= 1.3.04-3.0.4
 BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
 BuildRequires:	antlr
