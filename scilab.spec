@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.3.3
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -62,7 +62,7 @@ BuildRequires:	jeuclid-core
 BuildRequires:	python-libxml2
 BuildRequires:	qdox
 BuildRequires:	suitesparse-common-devel
-BuildRequires:	xml-commons-apis >= 1.3.04-3.0.4
+BuildRequires:	xml-commons-apis
 BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
 BuildRequires:	antlr
