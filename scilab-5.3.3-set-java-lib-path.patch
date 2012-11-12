@@ -1,0 +1,10 @@
+--- scilab-5.3.3/modules/javasci/src/java/javasci/Scilab.java.orig	2011-08-04 16:09:01.881897739 -0300
++++ scilab-5.3.3/modules/javasci/src/java/javasci/Scilab.java	2011-08-04 16:09:31.252897747 -0300
+@@ -110,6 +110,7 @@ public class Scilab {
+ 	static 
+ 	{
+ 		try {
++				System.setProperty("java.library.path",  System.getProperty("java.library.path") + ":/usr/lib/jre/");
+ 				System.loadLibrary("javasci");
+ 				Scilab.Initialize();
+ 			} catch (SecurityException e) {

@@ -1,0 +1,13 @@
+--- scilab-5.3.3/etc/librarypath.xml.orig	2011-08-04 16:07:25.878897778 -0300
++++ scilab-5.3.3/etc/librarypath.xml	2011-08-04 16:08:05.540897734 -0300
+@@ -34,7 +34,9 @@
+ <path value="/usr/lib/jni/"/>
+ 
+ <!-- Some distributions (like openSUSE) put gluegen-rt in /usr/lib instead pf /usr/lib/jni -->
+-<path value="/usr/lib" />
++<path value="/usr/lib/"/>
++<path value="/usr/lib64/"/>
++<path value="/usr/share/java/"/>
+ 
+ <!-- Make install with prefix -->
+ <path value="$SCILAB/../../lib/scilab/"/>

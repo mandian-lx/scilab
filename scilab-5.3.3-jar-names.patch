@@ -1,0 +1,50 @@
+--- scilab-5.3.3/configure.ac.orig	2011-08-04 16:10:45.646897678 -0300
++++ scilab-5.3.3/configure.ac	2011-08-04 16:12:21.500897650 -0300
+@@ -826,14 +826,8 @@ if test "$with_javasci" != no -o "$with_
+                 AC_JAVA_CHECK_VERSION_PACKAGE([flexdock],[import org.flexdock.util.Utilities;],$FLEXDOCK,[0.5.2],[Utilities.VERSION])
+ 
+                 # Swing look&feel implementations
+-                AC_JAVA_CHECK_PACKAGE([looks],[com.jgoodies.looks.common.MenuItemRenderer],[Scilab Gui - Look and feel],"yes")
++		AC_JAVA_CHECK_PACKAGE([jgoodies-looks],[com.jgoodies.looks.common.RenderingUtils],[Scilab Gui - Look and feel],"yes")
+                 LOOKS=$PACKAGE_JAR_FILE
+-
+-                # Named differently under ArchLinux
+-                if test -z "$LOOKS"; then
+-                    AC_JAVA_CHECK_PACKAGE([jgoodies-looks],[com.jgoodies.looks.common.MenuItemRenderer],[Scilab Gui - Look and feel])
+-                    LOOKS=$PACKAGE_JAR_FILE
+-                fi
+                 AC_SUBST(LOOKS)
+ 
+                 #  Skin Look and Feel
+@@ -888,14 +882,8 @@ the the JNI libraries."])],
+                 fi
+ 
+                 # Jhall
+-                AC_JAVA_CHECK_PACKAGE([jhall],[javax.help.JHelp],[Scilab Help Browser],"yes")
++		AC_JAVA_CHECK_PACKAGE([javahelp2],[javax.help.JHelp],[Scilab Help Browser],"yes")
+                 JHALL=$PACKAGE_JAR_FILE
+-
+-                # Named differently under Mandriva
+-                if test -z "$JHALL"; then
+-                    AC_JAVA_CHECK_PACKAGE([javahelp2],[javax.help.JHelp],[Scilab Help Browser])
+-                    JHALL=$PACKAGE_JAR_FILE
+-                fi
+                 AC_SUBST(JHALL)
+ 
+                 # Console API
+@@ -950,14 +938,8 @@ the the JNI libraries."])],
+                 AC_SUBST(AVALON_FRAMEWORK)
+ 
+                 # XML API EXT (conversion of a SVG => PNG)
+-                AC_JAVA_CHECK_PACKAGE([xml-apis-ext],[org.w3c.dom.svg.SVGDocument],[XML Commons external code],"yes")
++		AC_JAVA_CHECK_PACKAGE([xml-commons-apis-ext],[org.w3c.dom.svg.SVGDocument],[XML Commons external code],"yes")
+                 XML_APIS_EXT=$PACKAGE_JAR_FILE
+-
+-                if test -z "$XML_APIS_EXT"; then
+-                    # Other other distribs (Ex: Fedora/Redhat)
+-                    AC_JAVA_CHECK_PACKAGE([xml-commons-apis-ext],[org.w3c.dom.svg.SVGDocument],[XML Commons external code])
+-                    XML_APIS_EXT=$PACKAGE_JAR_FILE
+-                fi
+                 AC_SUBST(XML_APIS_EXT)
+ 
+                 ################ END Mandatory for graphic_export features #####

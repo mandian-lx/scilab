@@ -1,0 +1,74 @@
+--- scilab-5.3.3/configure.ac.orig	2011-08-04 16:35:16.551897100 -0300
++++ scilab-5.3.3/configure.ac	2011-08-04 16:37:47.143897057 -0300
+@@ -689,24 +689,6 @@ AC_CHECK_UNDERSCORE_FORTRAN()
+ 
+ 
+ #################
+-## HDF5
+-#################
+-
+-AC_ARG_WITH(hdf5,
+-    AC_HELP_STRING([--without-hdf5],[Disable the interface to the HDF5 library]))
+-
+-HDF5_ENABLE=no
+-
+-if test "$with_hdf5" != no; then
+-   AC_HDF5()
+-# TODO: check if the JNI JHDF5 library are available
+-   HDF5_ENABLE=yes
+-fi
+-
+-AC_SUBST(HDF5_ENABLE)
+-AM_CONDITIONAL(HDF5, test "$with_hdf5" != no)
+-
+-#################
+ ## XCOS
+ #################
+ 
+@@ -813,17 +795,6 @@ if test "$with_javasci" != no -o "$with_
+                    AC_SUBST(JGRAPHX)
+ 
+                    AC_JAVA_CHECK_VERSION_PACKAGE([jgraphx],[import com.mxgraph.view.mxGraph;],$JGRAPHX,[1.4.1.0],[mxGraph.VERSION],[],[=])
+-
+-                   # Java HDF5 is only needed for Xcos
+-                   if test $HDF5_ENABLE = yes -a "$with_xcos" != no -a "$with_gui" != no;  then
+-                      AC_JAVA_HDF5()
+-                      if test "$MACOSX" = 1; then
+-                         echo "Check of the presence of libjhdf5.jnilib disabled under Mac OS X"
+-                      else
+-                         AC_JNI_HDF5()
+-                      fi
+-                   fi #HDF5_ENABLE
+-
+                 fi
+ 
+                 # Docking system
+@@ -1064,6 +1035,28 @@ fi
+ 
+ AC_SUBST(JAVA_ENABLE)
+ 
++#################
++## HDF5
++#################
++
++AC_ARG_WITH(hdf5,
++	AC_HELP_STRING([--without-hdf5],[Disable the interface to the HDF5 library]))
++
++HDF5_ENABLE=no
++
++if test "$with_hdf5" != no; then
++   AC_HDF5()
++# TODO: check if the JNI JHDF5 library are available
++   HDF5_ENABLE=yes
++   if test "$JAVA_ENABLE" != no; then
++      AC_JAVA_HDF5()
++      AC_JNI_HDF5()
++   fi
++fi
++
++AC_SUBST(HDF5_ENABLE)
++AM_CONDITIONAL(HDF5, test "$with_hdf5" != no)
++
+ # Xcos is not checked here because gui=no disables it
+ AM_CONDITIONAL(NEED_JAVA, test "$with_javasci" != no -o "$with_gui" != no -o "$enable_build_help" != no)
+ AM_CONDITIONAL(GUI, test "$with_gui" != no)
