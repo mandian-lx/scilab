@@ -1,9 +1,9 @@
-%define _requires_exceptions libblas.so.3\\|jaxp_parser_impl\\|
+%define __noautoreq 'libblas.so.3|jaxp_parser_impl'
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.3.3
-Release:	%mkrel 3
+Release:	4
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
