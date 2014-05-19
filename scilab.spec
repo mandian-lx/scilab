@@ -30,12 +30,11 @@ BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
 BuildRequires:	gcc-gfortran
-BuildRequires:	GL-devel
+BuildRequires:	pkgconfig(gl)
 BuildRequires:	libgomp-devel
 BuildRequires:	ocaml
 BuildRequires:	imagemagick
 BuildRequires:	sablotron
-BuildRequires:	blas-devel
 BuildRequires:	lapack-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	java-rpmbuild
@@ -68,10 +67,8 @@ BuildRequires:	jlatexmath
 BuildRequires:	antlr
 BuildRequires:	jakarta-commons-beanutils
 BuildRequires:	chrpath
-%if %mdkversion > 201000
 BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
-%endif
 BuildRequires:	xmlgraphics-commons
 BuildConflicts:	termcap-devel
 #BuildConflicts:	junit
@@ -165,7 +162,7 @@ autoreconf -ifs
 	--with-lapack-library=%{_libdir} \
 	--with-jdk=%{java_home} \
 	--disable-rpath \
-	--with-umfpack \
+	--without-umfpack \
 	--enable-shared \
 	--disable-static \
 	--with-gfortran \
@@ -197,7 +194,6 @@ for i in emacs; do
 done
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 # (tpg) delete empty dirs
@@ -258,21 +254,8 @@ rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 
 %find_lang %{name}
 
-%if %mdkversion < 200900
-%post
-%{update_menus}
-%endif
-
-%if %mdkversion < 200900
-%postun
-%{clean_menus}
-%endif
-
-%clean
-rm -rf %{buildroot}
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc ACKNOWLEDGEMENTS CHANGES_5.3.X license.txt RELEASE_NOTES_5.3.X README_Unix
 %{_bindir}/*
 %{_libdir}/scilab
@@ -283,6 +266,5 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}
 
 %files devel
-%defattr(-,root,root)
 %{_includedir}/%{name}
 %{_libdir}/pkgconfig/*.pc
