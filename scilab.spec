@@ -3,7 +3,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.3.3
-Release:	4
+Release:	5
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
