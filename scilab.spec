@@ -23,6 +23,7 @@ Patch6:		%{name}-5.3.3-modelica.patch
 Patch7:		%{name}-5.3.3-Update-saxon-dependency-wrong-version.patch
 # based on upstream configure patch
 Patch8:		%{name}-5.3.3-build.incl.xml.patch
+Patch9:		scilab-5.5.0-enable-jdk8-build.patch
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
@@ -139,6 +140,7 @@ Development files and headers for %{name}.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 %define _disable_ld_no_undefined 1
