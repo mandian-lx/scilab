@@ -144,7 +144,7 @@ Development files and headers for %{name}.
 
 %build
 %define _disable_ld_no_undefined 1
-%define _disable_ld_as_needed 1
+export LDFLAGS="%{ldflags} -Wl,--no-as-needed"
 %define Werror_cflags %nil
 export JAVA_HOME=%{java_home}
 
@@ -187,6 +187,7 @@ autoreconf -ifs
 	--with-scicos \
 	--enable-relocatable
 
+export LC_ALL=en_US.UTF-8
 %make all doc
 
 cp -af %{SOURCE20} .
