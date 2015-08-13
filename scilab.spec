@@ -104,7 +104,6 @@ Requires:	liblapack
 Requires:	libblas
 Requires:	fftw
 Requires:	libmatio
-Requires:	libumfpack
 Requires:	docbook-style-xsl
 Requires:	swig
 Requires:	giws
