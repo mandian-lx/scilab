@@ -1,4 +1,3 @@
 sources:
-  "scilab-5.3.3-src.tar.xz": 4827aa3be3fb1e2abba0aeb4811003a359d20f9b
-  "scilab.el": 6179387203679076aa24eccc7a7f07b8e5339f19
-  "scilabsymbols.ttf": 6210fa644f1527284c4bbd28a50f90443d0f7799
+  scilab-5.3.3-src.tar.xz: 4827aa3be3fb1e2abba0aeb4811003a359d20f9b
+  scilabsymbols.ttf: 6210fa644f1527284c4bbd28a50f90443d0f7799
