@@ -65,6 +65,7 @@ BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
 BuildRequires:	xmlgraphics-commons
 BuildRequires:	pkgconfig(arpack)
+BuildRequires:	curl-devel
 BuildConflicts:	termcap-devel
 #BuildConflicts:	junit
 
