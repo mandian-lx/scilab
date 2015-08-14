@@ -10,6 +10,7 @@ URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
 Source1:	scilabsymbols.ttf
 Source20:	scilab.el
+Source100:	%{name}.rpmlintrc
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
 Patch1:		%{name}-5.5.2-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
