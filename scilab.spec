@@ -173,27 +173,8 @@ done
 # (tpg) delete empty dirs
 find %{buildroot}%{_datadir}/%{name} -type d -empty -delete
 
-# Icons
-for i in "16x16" "32x32" "48x48"; do
-    mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
-    convert desktop/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
-done
-
 # (tpg) get rid of this
 rm %{buildroot}%{_datadir}/%{name}/README_Windows.txt
-
-# Menu
-mkdir -p %{buildroot}%{_datadir}/applications
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
-[Desktop Entry]
-Name=Scilab
-Comment=High-level language for numerical computations
-Exec=scilab
-Icon=scilab
-Terminal=false
-Type=Application
-Categories=Science;Math;
-EOF
 
 # (X)emacs
 for i in emacs; do
@@ -221,7 +202,6 @@ done
 # (tpg) get rid of files with licenses
 rm %{buildroot}%{_datadir}/%{name}/modules/*/license.txt
 rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt 
-rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/BWidget-*/LICENSE.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/sciGUI/license.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt 
 rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
@@ -230,13 +210,16 @@ rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 
 
 %files -f %{name}.lang
-%doc ACKNOWLEDGEMENTS CHANGES_5.3.X license.txt RELEASE_NOTES_5.3.X README_Unix
+%doc ACKNOWLEDGEMENTS CHANGES_5.5.X license.txt RELEASE_NOTES_5.3.X README_Unix
 %{_bindir}/*
 %{_libdir}/scilab
-%{_iconsdir}/hicolor/*/*/%{name}.png
+%{_iconsdir}/hicolor/*/*/*.png
+%{_iconsdir}/hicolor/*/mimetypes/application-x-%{name}-*.png
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
 %{_datadir}/applications/*.desktop
+%{_datadir}/appdata/*.appdata.xml
+%{_datadir}/mime/packages/*.xml
 %{_datadir}/%{name}
 
 %files devel
