@@ -33,6 +33,7 @@ BuildRequires:	sablotron
 BuildRequires:	lapack-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	java-rpmbuild
+BuildRequires:	java-1.7.0-devel
 BuildRequires:	ant
 BuildRequires:	checkstyle
 BuildRequires:	flexdock
@@ -96,7 +97,7 @@ Requires:	fop
 Requires:	saxon
 Requires:	batik
 Requires:	jeuclid-core
-Requires:	java > 1.5
+Requires:	java > 1.7
 Requires:	xerces-j2
 Requires:	liblapack
 Requires:	libblas
