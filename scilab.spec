@@ -1,4 +1,5 @@
 %define __noautoreq 'libblas.so.3|jaxp_parser_impl'
+%define _disable_rebuild_configure 1
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
