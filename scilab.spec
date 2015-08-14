@@ -2,33 +2,29 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.3.3
-Release:	5
+Version:	5.5.2
+Release:	1
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
 Source1:	scilabsymbols.ttf
 Source20:	scilab.el
-Patch0:		%{name}-5.3.3-jhdf_2.6.patch
+Source100:	%{name}.rpmlintrc
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
-Patch1:		%{name}-5.3.3-increase-java-heap-size.patch
+Patch1:		%{name}-5.5.2-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch2:		%{name}-5.3.3-fix-ld-preload-paths.patch
+Patch2:		%{name}-5.5.2-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch3:		%{name}-5.3.3-add-more-paths-librarypath.patch
-Patch4:		%{name}-5.3.3-set-java-lib-path.patch
-Patch5:		%{name}-5.3.3-jar-names.patch
+Patch3:		%{name}-5.5.2-add-more-paths-librarypath.patch
 Patch6:		%{name}-5.3.3-modelica.patch
-Patch7:		%{name}-5.3.3-Update-saxon-dependency-wrong-version.patch
-# based on upstream configure patch
-Patch8:		%{name}-5.3.3-build.incl.xml.patch
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
+BuildRequires:	ecj
 BuildRequires:	gcc-gfortran
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	libgomp-devel
@@ -38,15 +34,16 @@ BuildRequires:	sablotron
 BuildRequires:	lapack-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	java-rpmbuild
+BuildRequires:	java-devel
 BuildRequires:	ant
 BuildRequires:	checkstyle
 BuildRequires:	flexdock
 BuildRequires:	jgoodies-looks
 BuildRequires:	umfpack-devel
-BuildRequires:	jogl
+BuildRequires:	jogl2
 # jhall == javahelp2
 BuildRequires:	javahelp2
-BuildRequires:	gluegen
+BuildRequires:	gluegen2
 BuildRequires:	jrosetta
 BuildRequires:	matio-devel
 BuildRequires:	swig
@@ -70,6 +67,8 @@ BuildRequires:	chrpath
 BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
 BuildRequires:	xmlgraphics-commons
+BuildRequires:	pkgconfig(arpack)
+BuildRequires:	curl-devel
 BuildConflicts:	termcap-devel
 #BuildConflicts:	junit
 
@@ -83,36 +82,35 @@ BuildConflicts:	scilab
 # have no issues in the build system, so, just add the BuildConflicts
 # in case someone tries to rebuild outside of a chroot.
 
+Requires:	ecj
+Requires:	arpack
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
 Requires:	gcc-gfortran
 Requires:	flexdock
 Requires:	jgoodies-looks
-Requires:	jogl
+Requires:	jogl2
 Requires:	jrosetta
-Requires:	gluegen
+Requires:	gluegen2
 Requires:	javahelp2
 Requires:	fop
 Requires:	saxon
 Requires:	batik
 Requires:	jeuclid-core
-Requires:	java > 1.5
+Requires:	java > 1.7
 Requires:	xerces-j2
 Requires:	liblapack
 Requires:	libblas
 Requires:	fftw
 Requires:	libmatio
-Requires:	libumfpack
 Requires:	docbook-style-xsl
 Requires:	swig
 Requires:	giws
 Requires:	sablotron
 Requires:	jgraphx
 Requires:	jlatexmath
-%if %mdkversion > 201000
 Requires:	hdf-java
-%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -129,31 +127,16 @@ Development files and headers for %{name}.
 
 %prep
 %setup -q
-
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
+%apply_patches
 
 %build
 %define _disable_ld_no_undefined 1
-%define _disable_ld_as_needed 1
+export LDFLAGS="%{ldflags} -Wl,--no-as-needed"
 %define Werror_cflags %nil
 export JAVA_HOME=%{java_home}
 
-# (tpg) get rid of double shalshes in path
-sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-apis-ext#g' configure
-
-# (tpg) fix jgraphx version compare logic
-sed -i -e 's#mxGraph.VERSION) > 0#mxGraph.VERSION) < 0#g' configure
-
 # patched configure.ac
-autoreconf -ifs
+# autoreconf -ifs
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
@@ -162,30 +145,25 @@ autoreconf -ifs
 	--with-lapack-library=%{_libdir} \
 	--with-jdk=%{java_home} \
 	--disable-rpath \
+	--without-emf \
 	--without-umfpack \
 	--enable-shared \
 	--disable-static \
+	--disable-static-system-lib \
 	--with-gfortran \
 	--with-gcc \
-	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization \
 	--enable-build-help \
-	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.75.2" \
+	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.76.1" \
 	--enable-build-swig \
 	--enable-build-giws \
-	--without-pvm \
 	--with-install-help-xml \
-%if %mdkversion > 201000
-	--with-hdf5 \
-%else
-	--without-hdf5 \
-%endif
 	--with-gui \
-	--with-scicos \
 	--enable-relocatable
 
-%make all doc
+%make all
+%make doc
 
 cp -af %{SOURCE20} .
 for i in emacs; do
@@ -199,27 +177,8 @@ done
 # (tpg) delete empty dirs
 find %{buildroot}%{_datadir}/%{name} -type d -empty -delete
 
-# Icons
-for i in "16x16" "32x32" "48x48"; do
-    mkdir -p %{buildroot}%{_iconsdir}/hicolor/$i/apps
-    convert desktop/%{name}.xpm -geometry $i %{buildroot}%{_iconsdir}/hicolor/$i/apps/%{name}.png ;
-done
-
 # (tpg) get rid of this
 rm %{buildroot}%{_datadir}/%{name}/README_Windows.txt
-
-# Menu
-mkdir -p %{buildroot}%{_datadir}/applications
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
-[Desktop Entry]
-Name=Scilab
-Comment=High-level language for numerical computations
-Exec=scilab
-Icon=scilab
-Terminal=false
-Type=Application
-Categories=Science;Math;
-EOF
 
 # (X)emacs
 for i in emacs; do
@@ -247,7 +206,6 @@ done
 # (tpg) get rid of files with licenses
 rm %{buildroot}%{_datadir}/%{name}/modules/*/license.txt
 rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt 
-rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/BWidget-*/LICENSE.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/sciGUI/license.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt 
 rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
@@ -256,13 +214,16 @@ rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 
 
 %files -f %{name}.lang
-%doc ACKNOWLEDGEMENTS CHANGES_5.3.X license.txt RELEASE_NOTES_5.3.X README_Unix
+%doc ACKNOWLEDGEMENTS CHANGES_5.5.X license.txt RELEASE_NOTES_5.3.X README_Unix
 %{_bindir}/*
 %{_libdir}/scilab
-%{_iconsdir}/hicolor/*/*/%{name}.png
+%{_iconsdir}/hicolor/*/apps/*.png
+%{_iconsdir}/hicolor/*/mimetypes/application-x-%{name}-*.png
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
 %{_datadir}/applications/*.desktop
+%{_datadir}/appdata/*.appdata.xml
+%{_datadir}/mime/packages/*.xml
 %{_datadir}/%{name}
 
 %files devel
