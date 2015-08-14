@@ -23,6 +23,7 @@ BuildRequires:	tcl-devel >= 8.5
 BuildRequires:	tk-devel >= 8.5
 BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
+BuildRequires:	ecj
 BuildRequires:	gcc-gfortran
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	libgomp-devel
@@ -79,6 +80,7 @@ BuildConflicts:	scilab
 # have no issues in the build system, so, just add the BuildConflicts
 # in case someone tries to rebuild outside of a chroot.
 
+Requires:	ecj
 Requires:	arpack
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
