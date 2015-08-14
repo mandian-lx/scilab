@@ -216,7 +216,7 @@ rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 %doc ACKNOWLEDGEMENTS CHANGES_5.5.X license.txt RELEASE_NOTES_5.3.X README_Unix
 %{_bindir}/*
 %{_libdir}/scilab
-%{_iconsdir}/hicolor/*/*/*.png
+%{_iconsdir}/hicolor/*/apps/*.png
 %{_iconsdir}/hicolor/*/mimetypes/application-x-%{name}-*.png
 %config(noreplace) /etc/emacs/site-start.d/%{name}.el
 %{_datadir}/*/site-lisp/*el*
