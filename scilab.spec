@@ -158,7 +158,6 @@ export JAVA_HOME=%{java_home}
 	--enable-build-help \
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.76.1" \
 	--enable-build-swig \
-	--enable-build-giws \
 	--with-install-help-xml \
 	--with-gui \
 	--enable-relocatable
