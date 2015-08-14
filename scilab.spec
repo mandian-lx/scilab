@@ -130,9 +130,6 @@ export LDFLAGS="%{ldflags} -Wl,--no-as-needed"
 %define Werror_cflags %nil
 export JAVA_HOME=%{java_home}
 
-# (tpg) get rid of double shalshes in path
-sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-apis-ext#g' configure
-
 # patched configure.ac
 # autoreconf -ifs
 
@@ -153,15 +150,15 @@ sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/j
 	--with-fftw \
 	--enable-build-localization \
 	--enable-build-help \
-	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.75.2" \
+	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.76.1" \
 	--enable-build-swig \
 	--enable-build-giws \
 	--with-install-help-xml \
 	--with-gui \
 	--enable-relocatable
 
-export LC_ALL=en_US.UTF-8
-%make all doc
+%make all
+%make doc
 
 cp -af %{SOURCE20} .
 for i in emacs; do
