@@ -2,28 +2,21 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.3.3
-Release:	4
+Version:	5.5.2
+Release:	1
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
 Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
 Source1:	scilabsymbols.ttf
 Source20:	scilab.el
-Patch0:		%{name}-5.3.3-jhdf_2.6.patch
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
-Patch1:		%{name}-5.3.3-increase-java-heap-size.patch
+Patch1:		%{name}-5.5.2-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch2:		%{name}-5.3.3-fix-ld-preload-paths.patch
+Patch2:		%{name}-5.5.2-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch3:		%{name}-5.3.3-add-more-paths-librarypath.patch
-Patch4:		%{name}-5.3.3-set-java-lib-path.patch
-Patch5:		%{name}-5.3.3-jar-names.patch
+Patch3:		%{name}-5.5.2-add-more-paths-librarypath.patch
 Patch6:		%{name}-5.3.3-modelica.patch
-Patch7:		%{name}-5.3.3-Update-saxon-dependency-wrong-version.patch
-# based on upstream configure patch
-Patch8:		%{name}-5.3.3-build.incl.xml.patch
-Patch9:		scilab-5.5.0-enable-jdk8-build.patch
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	tcl-devel >= 8.5
@@ -44,10 +37,10 @@ BuildRequires:	checkstyle
 BuildRequires:	flexdock
 BuildRequires:	jgoodies-looks
 BuildRequires:	umfpack-devel
-BuildRequires:	jogl
+BuildRequires:	jogl2
 # jhall == javahelp2
 BuildRequires:	javahelp2
-BuildRequires:	gluegen
+BuildRequires:	gluegen2
 BuildRequires:	jrosetta
 BuildRequires:	matio-devel
 BuildRequires:	swig
@@ -71,6 +64,7 @@ BuildRequires:	chrpath
 BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
 BuildRequires:	xmlgraphics-commons
+BuildRequires:	pkgconfig(arpack)
 BuildConflicts:	termcap-devel
 #BuildConflicts:	junit
 
@@ -84,15 +78,16 @@ BuildConflicts:	scilab
 # have no issues in the build system, so, just add the BuildConflicts
 # in case someone tries to rebuild outside of a chroot.
 
+Requires:	arpack
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
 Requires:	gcc-gfortran
 Requires:	flexdock
 Requires:	jgoodies-looks
-Requires:	jogl
+Requires:	jogl2
 Requires:	jrosetta
-Requires:	gluegen
+Requires:	gluegen2
 Requires:	javahelp2
 Requires:	fop
 Requires:	saxon
@@ -110,9 +105,7 @@ Requires:	giws
 Requires:	sablotron
 Requires:	jgraphx
 Requires:	jlatexmath
-%if %mdkversion > 201000
 Requires:	hdf-java
-%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -129,17 +122,7 @@ Development files and headers for %{name}.
 
 %prep
 %setup -q
-
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
+%apply_patches
 
 %build
 %define _disable_ld_no_undefined 1
@@ -150,11 +133,8 @@ export JAVA_HOME=%{java_home}
 # (tpg) get rid of double shalshes in path
 sed -i -e 's#/usr/share/java/#/usr/share/java#g' -e 's#/usr/lib/java/#/usr/lib/java#g' -e 's#xml-apis-ext#xml-commons-apis-ext#g' configure
 
-# (tpg) fix jgraphx version compare logic
-sed -i -e 's#mxGraph.VERSION) > 0#mxGraph.VERSION) < 0#g' configure
-
 # patched configure.ac
-autoreconf -ifs
+# autoreconf -ifs
 
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
@@ -163,27 +143,21 @@ autoreconf -ifs
 	--with-lapack-library=%{_libdir} \
 	--with-jdk=%{java_home} \
 	--disable-rpath \
+	--without-emf \
 	--without-umfpack \
 	--enable-shared \
 	--disable-static \
+	--disable-static-system-lib \
 	--with-gfortran \
 	--with-gcc \
-	--with-ocaml \
 	--with-fftw \
 	--enable-build-localization \
 	--enable-build-help \
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.75.2" \
 	--enable-build-swig \
 	--enable-build-giws \
-	--without-pvm \
 	--with-install-help-xml \
-%if %mdkversion > 201000
-	--with-hdf5 \
-%else
-	--without-hdf5 \
-%endif
 	--with-gui \
-	--with-scicos \
 	--enable-relocatable
 
 export LC_ALL=en_US.UTF-8
