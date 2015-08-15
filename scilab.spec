@@ -162,7 +162,7 @@ export JAVA_HOME=%{java_home}
 	--with-install-help-xml \
 	--with-gui \
 	--enable-relocatable \
-	--disable-openmp
+	--without-openmp
 
 %make all
 %make doc
