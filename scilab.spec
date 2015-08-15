@@ -161,7 +161,8 @@ export JAVA_HOME=%{java_home}
 	--enable-build-swig \
 	--with-install-help-xml \
 	--with-gui \
-	--enable-relocatable
+	--enable-relocatable \
+	--disable-openmp
 
 %make all
 %make doc
