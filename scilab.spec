@@ -106,7 +106,7 @@ Requires:	xerces-j2
 Requires:	liblapack
 Requires:	libblas
 Requires:	fftw
-Requires:	libmatio
+Requires:	matio
 Requires:	docbook-style-xsl
 Requires:	swig
 Requires:	giws
