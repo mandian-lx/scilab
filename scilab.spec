@@ -27,6 +27,7 @@ BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
 BuildRequires:	ecj
 BuildRequires:	gcc-gfortran
+BuildRequires:	openmpi-devel
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	libgomp-devel
 BuildRequires:	ocaml
