@@ -67,7 +67,6 @@ BuildRequires:	jlatexmath
 BuildRequires:	antlr
 BuildRequires:	jakarta-commons-beanutils
 BuildRequires:	chrpath
-BuildRequires:	hdf-java
 BuildRequires:	hdf5-devel
 BuildRequires:	xmlgraphics-commons
 BuildRequires:	pkgconfig(arpack)
@@ -111,7 +110,6 @@ Requires:	docbook-style-xsl
 Requires:	sablotron
 Requires:	jgraphx
 Requires:	jlatexmath
-Requires:	hdf-java
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
