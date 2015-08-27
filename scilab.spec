@@ -5,7 +5,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.5.2
-Release:	1
+Release:	2
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -108,8 +108,6 @@ Requires:	libblas
 Requires:	fftw
 Requires:	matio
 Requires:	docbook-style-xsl
-Requires:	swig
-Requires:	giws
 Requires:	sablotron
 Requires:	jgraphx
 Requires:	jlatexmath
@@ -141,6 +139,10 @@ export JAVA_HOME=%{java_home}
 # patched configure.ac
 # autoreconf -ifs
 
+# for openmp
+export CC=gcc
+export CXX=g++
+
 %configure2_5x \
 	--with-tk-library=%{_libdir} \
 	--with-tcl-library=%{_libdir} \
@@ -162,8 +164,7 @@ export JAVA_HOME=%{java_home}
 	--enable-build-swig \
 	--with-install-help-xml \
 	--with-gui \
-	--enable-relocatable \
-	--without-openmp
+	--enable-relocatable
 
 %make all
 %make doc
