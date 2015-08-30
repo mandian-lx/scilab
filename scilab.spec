@@ -5,7 +5,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	5.5.2
-Release:	2
+Release:	3
 License:	CeCILL
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -84,7 +84,6 @@ BuildConflicts:	scilab
 # in case someone tries to rebuild outside of a chroot.
 
 Requires:	ecj
-Requires:	arpack
 Requires:	tcl >= 8.5
 Requires:	tk >= 8.5
 Requires:	ocaml
@@ -99,12 +98,8 @@ Requires:	fop
 Requires:	saxon
 Requires:	batik
 Requires:	jeuclid-core
-Requires:	java > 1.7
+Requires:	java > 1.8
 Requires:	xerces-j2
-Requires:	liblapack
-Requires:	libblas
-Requires:	fftw
-Requires:	matio
 Requires:	docbook-style-xsl
 Requires:	sablotron
 Requires:	jgraphx
