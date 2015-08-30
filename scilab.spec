@@ -28,7 +28,6 @@ BuildRequires:	xaw-devel
 BuildRequires:	emacs-nox
 BuildRequires:	ecj
 BuildRequires:	gcc-gfortran
-BuildRequires:	openmpi-devel
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	libgomp-devel
 BuildRequires:	ocaml
@@ -159,7 +158,6 @@ export CXX=g++
 	--enable-build-localization \
 	--enable-build-help \
 	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.76.1" \
-	--enable-build-swig \
 	--with-install-help-xml \
 	--with-gui \
 	--enable-relocatable
