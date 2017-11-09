@@ -1,0 +1,11 @@
+--- a/modules/io/src/cpp/loadlib.cpp
++++ b/modules/io/src/cpp/loadlib.cpp
+@@ -38,7 +38,7 @@
+ {
+     types::Library* lib = NULL;
+ 
+-    wchar_t* pwstXML = pathconvertW(_wstXML.data(), FALSE, FALSE, AUTO_STYLE);
++    wchar_t* pwstXML = pathconvertW(_wstXML.data(), (BOOL) FALSE, (BOOL) FALSE, AUTO_STYLE);
+     wchar_t* pwstPathLib = expandPathVariableW(pwstXML);
+ 
+     bool expanded = true;
