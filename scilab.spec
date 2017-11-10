@@ -87,7 +87,7 @@ BuildRequires:	junit
 
 # documentation
 BuildRequires:  apache-commons-io
-BuildRequires:	avalon-framewor
+BuildRequires:	avalon-framework
 BuildRequires:	batik
 BuildRequires:	fop
 BuildRequires:	jlatexmath
