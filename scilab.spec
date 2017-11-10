@@ -97,7 +97,7 @@ BuildRequires:	xmlgraphics-commons
 # documentation build
 #BuildRequires:  doxygen
 BuildRequires:  docbook-style-xsl
-BuildRequires:  liberation-sans-fonts
+BuildRequires:  fonts-ttf-liberation
 BuildRequires:  saxon
 
 # OpenMp
