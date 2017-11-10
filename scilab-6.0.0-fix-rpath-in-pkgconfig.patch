@@ -1,0 +1,9 @@
+--- a/scilab.pc.in
++++ b/scilab.pc.in
+@@ -8,5 +8,5 @@
+ URL: http://www.scilab.org
+ Version: @SCILAB_BINARY_VERSION@
+ Cflags: -I${includedir}/scilab
+-Libs: -L${libdir}/scilab -lscicall_scilab -lscilab -Wl,-rpath-link=${libdir}/scilab
++Libs: -L${libdir}/scilab -lscicall_scilab -lscilab
+ 
