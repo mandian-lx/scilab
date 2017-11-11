@@ -251,7 +251,7 @@ export CXX=g++
 	%{nil}
 
 # NOTE: modelica module (ocaml) breaks paralle compilation
-make %{?_smp_mflags} -O all
+make -O all
 
 # documentation
 %make doc
