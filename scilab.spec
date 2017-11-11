@@ -19,9 +19,9 @@ Source100:	%{name}.rpmlintrc
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
 #Patch1:	%{name}-5.5.2-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch2:		%{name}-6.0.0-fix-ld-preload-paths.patch
+Patch2:		%{name}-5.5.2-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch3:		%{name}-5.5.2-add-more-paths-librarypath.patch
+Patch3:		%{name}-6.0.0-add-more-paths-librarypath.patch
 Patch4:		%{name}-6.0.0-fix-type.patch
 Patch5:		%{name}-6.0.0-fix-rpath-in-pkgconfig
 #Patch6:	%{name}-5.3.3-modelica.patch
