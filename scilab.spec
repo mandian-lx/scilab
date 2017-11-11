@@ -23,7 +23,7 @@ Patch2:		%{name}-5.5.2-fix-ld-preload-paths.patch
 # (tpg) add more paths
 Patch3:		%{name}-6.0.0-add-more-paths-librarypath.patch
 Patch4:		%{name}-6.0.0-fix-type.patch
-Patch5:		%{name}-6.0.0-fix-rpath-in-pkgconfig
+Patch5:		%{name}-6.0.0-fix-rpath-in-pkgconfig.patch
 #Patch6:	%{name}-5.3.3-modelica.patch
 # adapted from http://gitweb.scilab.org/?p=scilab.git;a=commitdiff;h=c188bb392d1dd8441d1a4132004f77b63a3353df
 Patch100:	scilab-0002-jogl-2.3.2.patch
