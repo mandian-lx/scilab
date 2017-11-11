@@ -233,7 +233,6 @@ cp %{SOURCE50} modules/scicos/.depend
 sed -i -e '/name="Class-Path"/d' build.incl.xml
 
 %build
-export LDFLAGS="-L%{_libdir}/openmpi/lib"
 export JAVA_HOME=%{java_home}
 
 # patched configure.ac
@@ -247,7 +246,7 @@ export CXX=g++
 %configure \
 	--disable-static-system-lib \
 	--enable-relocatable \
-	--with-mpi \
+	--without-mpi \
 	--without-emf \
 	%{nil}
 
