@@ -232,9 +232,7 @@ cp %{SOURCE50} modules/scicos/.depend
 sed -i -e '/name="Class-Path"/d' build.incl.xml
 
 %build
-#define _disable_ld_no_undefined 1
-#export LDFLAGS="%{ldflags} -Wl,--no-as-needed"
-#define Werror_cflags %nil
+export LDFLAGS="-L%{_libdir}/openmpi/lib"
 export JAVA_HOME=%{java_home}
 
 # patched configure.ac
