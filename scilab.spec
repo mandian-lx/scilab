@@ -33,6 +33,9 @@ Patch300:	%{name}-6.0.0-port-to-lucene-6.patch
 Patch301:	%{name}-6.0.0-port-to-libhdf5-1.10.patch
 Patch302:	%{name}-6.0.0-port-to-batik-1.9.patch
 
+# configure
+BuildRequires:  intltool
+
 # compiler
 BuildRequires:  gcc-gfortran
 
