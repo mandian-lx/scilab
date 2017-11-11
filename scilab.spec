@@ -130,6 +130,7 @@ BuildRequires:	swig
 BuildRequires:	gettext
 BuildRequires:	libxml2-utils
 BuildRequires:	jhdf5
+BuildRequires:	mpi-devel
 BuildRequires:  pkgconfig(eigen3)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(matio)
