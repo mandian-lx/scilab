@@ -29,7 +29,7 @@ Patch5:		%{name}-6.0.0-fix-rpath-in-pkgconfig.patch
 Patch100:	scilab-0002-jogl-2.3.2.patch
 # adapted from http://gitweb.scilab.org/?p=scilab.git;a=commitdiff;h=962fe026f1c44f7f76435db0b4838b0d936994c8
 Patch101:	%{name}-6.0.0-fix-build-with-ocaml-4.0.4.patch
-Patch300:	%{name}-6.0.0-port-to-lucene-6.patch
+Patch300:	%{name}-6.0.0-port-to-lucene-4.patch
 Patch301:	%{name}-6.0.0-port-to-libhdf5-1.10.patch
 Patch302:	%{name}-6.0.0-port-to-batik-1.9.patch
 Patch303:	%{name}-6.0.0-port-to-lapack-3.6.0.patch
