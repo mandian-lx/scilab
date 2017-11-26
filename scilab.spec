@@ -180,6 +180,9 @@ Requires:	jgoodies-looks
 Requires:	jgraphx
 Requires:	jlatexmath
 Requires:	jrosetta
+Requires:	lucene
+Requires:	lucene-analysis
+Requires:	lucene-queryparser
 Requires:	ocaml
 Requires:	sablotron
 Requires:	saxon
