@@ -1,0 +1,20 @@
+--- a/modules/cacsd/src/slicot/mb03od.f
++++ b/modules/cacsd/src/slicot/mb03od.f
+@@ -162,7 +162,7 @@
+       LOGICAL            LSAME
+       EXTERNAL           LSAME
+ C     .. External Subroutines ..
+-      EXTERNAL           DGEQPF, DLAIC1, XERBLA
++      EXTERNAL           DGEQP3, DLAIC1, XERBLA
+ C     .. Intrinsic Functions ..
+       INTRINSIC          ABS, MAX, MIN
+ C     ..
+@@ -211,7 +211,7 @@
+ C           A * P = Q * R
+ C        Workspace 3*N. Details of Householder rotations stored in TAU.
+ C
+-         CALL DGEQPF( M, N, A, LDA, JPVT, TAU, DWORK( 1 ), INFO )
++         CALL DGEQP3( M, N, A, LDA, JPVT, TAU, DWORK( 1 ), 3*N+1, INFO )
+       END IF
+ C
+ C     Determine RANK using incremental condition estimation

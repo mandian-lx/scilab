@@ -1,77 +1,157 @@
-%define __noautoreq 'libblas.so.3|jaxp_parser_impl'
-%define _disable_rebuild_configure 1
-%define _disable_lto 1
+%define __noautoreq 'libblas.so.3|libatlas.so.3|jaxp_parser_impl'
+%define _disable_ld_no_undefined 1
+
+# Disable this to use external scirenderer (still unpackaged)
+%bcond_without	scirenderer
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	5.5.2
-Release:	3
-License:	CeCILL
+Version:	6.0.0
+Release:	1
+License:	GPLv2 and BSD
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
-Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.xz
+Source0:	http://www.scilab.org/download/%{version}/%{name}-%{version}-src.tar.gz
 Source1:	scilabsymbols.ttf
 Source20:	scilab.el
+Source50:	dot.depend
 Source100:	%{name}.rpmlintrc
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
-Patch1:		%{name}-5.5.2-increase-java-heap-size.patch
+#Patch1:	%{name}-5.5.2-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
 Patch2:		%{name}-5.5.2-fix-ld-preload-paths.patch
 # (tpg) add more paths
-Patch3:		%{name}-5.5.2-add-more-paths-librarypath.patch
-Patch6:		%{name}-5.3.3-modelica.patch
-BuildRequires:	automake
-BuildRequires:	gettext-devel
-BuildRequires:	tcl-devel >= 8.5
-BuildRequires:	tk-devel >= 8.5
-BuildRequires:	xaw-devel
-BuildRequires:	emacs-nox
-BuildRequires:	ecj
-BuildRequires:	gcc-gfortran
-BuildRequires:	pkgconfig(gl)
-BuildRequires:	libgomp-devel
-BuildRequires:	ocaml
-BuildRequires:	imagemagick
-BuildRequires:	sablotron
-BuildRequires:	lapack-devel
-BuildRequires:	fftw3-devel
+Patch3:		%{name}-6.0.0-add-more-paths-librarypath.patch
+Patch4:		%{name}-6.0.0-fix-type.patch
+Patch5:		%{name}-6.0.0-fix-rpath-in-pkgconfig.patch
+#Patch6:	%{name}-5.3.3-modelica.patch
+# adapted from http://gitweb.scilab.org/?p=scilab.git;a=commitdiff;h=c188bb392d1dd8441d1a4132004f77b63a3353df
+Patch100:	scilab-0002-jogl-2.3.2.patch
+# adapted from http://gitweb.scilab.org/?p=scilab.git;a=commitdiff;h=962fe026f1c44f7f76435db0b4838b0d936994c8
+Patch101:	%{name}-6.0.0-fix-build-with-ocaml-4.0.4.patch
+Patch300:	%{name}-6.0.0-port-to-lucene-4.patch
+Patch301:	%{name}-6.0.0-port-to-libhdf5-1.10.patch
+Patch302:	%{name}-6.0.0-port-to-batik-1.9.patch
+Patch303:	%{name}-6.0.0-port-to-lapack-3.6.0.patch
+
+# configure
+BuildRequires:  intltool
+
+# compiler
+BuildRequires:  gcc-gfortran
+
+# java configuration
+BuildRequires:	ant
 BuildRequires:	java-rpmbuild
 BuildRequires:	java-devel
-BuildRequires:	ant
-BuildRequires:	checkstyle
+
+# core
+BuildRequires:	hdf5-devel
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(libpcre)
+BuildRequires:	pkgconfig(libpcreposix)
+BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(ncurses)
+
+# modelica
+BuildRequires:	ocaml
+
+# numerical libraries
+BuildRequires:	pkgconfig(arpack)
+BuildRequires:	pkgconfig(lapack)
+
+# java dependencies
+BuildRequires:  apache-commons-logging
+BuildRequires:	ecj
 BuildRequires:	flexdock
-BuildRequires:	jgoodies-looks
-BuildRequires:	umfpack-devel
-BuildRequires:	jogl2
-# jhall == javahelp2
-BuildRequires:	javahelp2
 BuildRequires:	gluegen2
-BuildRequires:	jrosetta
-BuildRequires:	matio-devel
-BuildRequires:	swig
-BuildRequires:	ncurses-devel
-BuildRequires:	pcre-devel
-BuildRequires:	giws
-BuildRequires:	docbook-style-xsl
-BuildRequires:	batik
-BuildRequires:	saxon
-BuildRequires:	fop
+# NOTE: jhall == javahelp2
+BuildRequires:	javahelp2
 BuildRequires:	jeuclid-core
-BuildRequires:	python-libxml2
-BuildRequires:	qdox
-BuildRequires:	suitesparse-common-devel
-BuildRequires:	xml-commons-apis
+BuildRequires:	jgoodies-looks
 BuildRequires:	jgraphx
 BuildRequires:	jlatexmath
-BuildRequires:	antlr
-BuildRequires:	jakarta-commons-beanutils
-BuildRequires:	chrpath
-BuildRequires:	hdf5-devel
+BuildRequires:	jogl2
+BuildRequires:	jrosetta
+BuildRequires:  lucene
+BuildRequires:  lucene-analysis
+BuildRequires:  lucene-queryparser
+BuildRequires:	pkgconfig(gl)
+%if %{without scirenderer}
+BuildRequires:	scirenderer
+%endif
+
+# code quality (optional)
+BuildRequires:	antlr-tool
+BuildRequires:	apache-commons-beanutils
+BuildRequires:	checkstyle
+BuildRequires:	cobertura
+BuildRequires:	hamcrest12
+BuildRequires:	junit
+
+# documentation
+BuildRequires:  apache-commons-io
+BuildRequires:	avalon-framework
+BuildRequires:	batik
+BuildRequires:	fop
+BuildRequires:	jlatexmath
+BuildRequires:	xml-commons-apis
 BuildRequires:	xmlgraphics-commons
-BuildRequires:	pkgconfig(arpack)
-BuildRequires:	curl-devel
+
+# documentation build
+#BuildRequires:  doxygen
+BuildRequires:  docbook-style-xsl
+BuildRequires:  fonts-ttf-liberation
+BuildRequires:  saxon
+
+# OpenMp
+BuildRequires:	libgomp-devel
+
+# TCL/TK
+BuildRequires:	pkgconfig(tcl)
+BuildRequires:	pkgconfig(tk)
+BuildRequires:	pkgconfig(x11)
+
+# scirenderer
+%if %{with scirenderer}
+BuildRequires:	gluegen2
+BuildRequires:	jogl2
+BuildRequires:	jlatexmath
+%endif
+
+# regenerate Scilab's parser
+BuildRequires:	byacc
+BuildRequires:	flex
+
+# recompile Scilab from scratch
+BuildRequires:	giws
+BuildRequires:	swig
+
+# optional
+BuildRequires:	gettext
+BuildRequires:	libxml2-utils
+BuildRequires:	jhdf5
+BuildRequires:  pkgconfig(eigen3)
+BuildRequires:	pkgconfig(fftw3)
+BuildRequires:	pkgconfig(matio)
+BuildRequires:	umfpack-devel
+
+# emacs
+BuildRequires:	emacs-nox
+
+# packaging
+BuildRequires:	chrpath
+BuildRequires:  desktop-file-utils
+BuildRequires:	imagemagick
+BuildRequires:  appstream-util
+#BuildRequires:	python-libxml2
+BuildRequires:	valgrind
+#BuildRequires:	qdox
+#BuildRequires:	pkgconfig(xaw7)
+#BuildRequires:	sablotron
+
+
 BuildConflicts:	termcap-devel
-#BuildConflicts:	junit
 
 # build of 5.3.3 with 5.3.0 installed fails in doc generation due to not
 # finding class org/scilab/forge/scidoc/SciDocMain in call:
@@ -82,34 +162,53 @@ BuildConflicts:	scilab
 # something to prevent it from using installed scilab files, and should
 # have no issues in the build system, so, just add the BuildConflicts
 # in case someone tries to rebuild outside of a chroot.
+#    echo     "  -nouserstartup  : do not execute the user startup files SCIHOME/.scilab or SCIHOME/scilab.ini."
 
-Requires:	ecj
-Requires:	tcl >= 8.5
-Requires:	tk >= 8.5
-Requires:	ocaml
-Requires:	gcc-gfortran
-Requires:	flexdock
-Requires:	jgoodies-looks
-Requires:	jogl2
-Requires:	jrosetta
-Requires:	gluegen2
-Requires:	javahelp2
-Requires:	fop
-Requires:	saxon
 Requires:	batik
-Requires:	jeuclid-core
-Requires:	java > 1.8
-Requires:	xerces-j2
+Requires:       bwidget
 Requires:	docbook-style-xsl
-Requires:	sablotron
+Requires:	gcc-gfortran
+Requires:	ecj
+Requires:	flexdock
+Requires:	fop
+Requires:	gluegen2
+Requires:	java > 1.8
+Requires:	javahelp2
+Requires:	jeuclid-core
+Requires:	jgoodies-looks
 Requires:	jgraphx
 Requires:	jlatexmath
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+Requires:	jrosetta
+Requires:	lucene
+Requires:	lucene-analysis
+Requires:	lucene-queryparser
+Requires:	ocaml
+Requires:	sablotron
+Requires:	saxon
+Requires:	tcl >= 8.5
+Requires:	jogl2
+Requires:	tk >= 8.5
+Requires:	xerces-j2
 
 %description
 Scilab is a high-level language, primarily intended for numerical
 computations.  Scilab includes a number of toolboxes and on-line
 documentation.
+
+%files -f %{name}.lang
+%doc ACKNOWLEDGEMENTS CHANGES.md COPYING COPYING-BSD README.md
+%config(noreplace) /etc/emacs/site-start.d/%{name}.el
+%{_bindir}/*
+%{_libdir}/scilab
+%{_iconsdir}/hicolor/*/apps/*.png
+%{_iconsdir}/hicolor/*/mimetypes/application-x-%{name}-*.png
+%{_datadir}/*/site-lisp/*el*
+%{_datadir}/applications/*.desktop
+%{_datadir}/appdata/*.appdata.xml
+%{_datadir}/mime/packages/*.xml
+%{_datadir}/%{name}
+
+#---------------------------------------------------------------------------
 
 %package devel
 Summary:	Development files for %{name}
@@ -118,48 +217,48 @@ Group:		Development/Other
 %description devel
 Development files and headers for %{name}.
 
+%files devel
+%{_includedir}/%{name}
+%{_libdir}/pkgconfig/*.pc
+
+#---------------------------------------------------------------------------
+
 %prep
 %setup -q
+
+# patch requires .depend
 %apply_patches
 
+# .depend is required for autoreconf
+cp %{SOURCE50} modules/scicos/.depend
+
+# fix class-path-in-manifest
+sed -i -e '/name="Class-Path"/d' build.incl.xml
+
 %build
-%define _disable_ld_no_undefined 1
-export LDFLAGS="%{ldflags} -Wl,--no-as-needed"
-%define Werror_cflags %nil
 export JAVA_HOME=%{java_home}
 
 # patched configure.ac
-# autoreconf -ifs
+autoreconf -fivs
 
-# for openmp
+# for openmpi (lapack)
 export CC=gcc
 export CXX=g++
 
-%configure2_5x \
-	--with-tk-library=%{_libdir} \
-	--with-tcl-library=%{_libdir} \
-	--with-blas-library=%{_libdir} \
-	--with-lapack-library=%{_libdir} \
-	--with-jdk=%{java_home} \
-	--disable-rpath \
-	--without-emf \
-	--without-umfpack \
-	--enable-shared \
-	--disable-static \
+%configure \
 	--disable-static-system-lib \
-	--with-gfortran \
-	--with-gcc \
-	--with-fftw \
-	--enable-build-localization \
-	--enable-build-help \
-	--with-docbook="/usr/share/sgml/docbook/xsl-stylesheets-1.76.1" \
-	--with-install-help-xml \
-	--with-gui \
-	--enable-relocatable
+	--enable-relocatable \
+	--without-mpi \
+	--without-emf \
+	%{nil}
 
-%make all
+# NOTE: modelica module (ocaml) breaks paralle compilation
+make -O all
+
+# documentation
 %make doc
 
+# (X)emacs
 cp -af %{SOURCE20} .
 for i in emacs; do
 	$i -batch -q -no-site-file -f batch-byte-compile %{name}.el
@@ -172,55 +271,43 @@ done
 # (tpg) delete empty dirs
 find %{buildroot}%{_datadir}/%{name} -type d -empty -delete
 
-# (tpg) get rid of this
-rm %{buildroot}%{_datadir}/%{name}/README_Windows.txt
-
 # (X)emacs
 for i in emacs; do
-	mkdir -p %{buildroot}%{_datadir}/$i/site-lisp/
-	mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/
-	install -m644 $i-%{name}.elc %{buildroot}%{_datadir}/$i/site-lisp/
-	[[ $i = emacs ]] && install -m644 %{name}.el %{buildroot}%{_datadir}/emacs/site-lisp/
+	install -dm 0755 %{buildroot}%{_datadir}/$i/site-lisp/
+	install -pm 0644 $i-%{name}.elc %{buildroot}%{_datadir}/$i/site-lisp/
+	[[ $i = emacs ]] && install -pm 0644 %{name}.el %{buildroot}%{_datadir}/emacs/site-lisp/
 done
-
-mkdir -p %{buildroot}/%{_sysconfdir}/emacs/site-start.d
-install -m644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}.el
+install -dm 0755 %{buildroot}/%{_sysconfdir}/emacs/site-start.d
+install -pm 0644 %{SOURCE20} %{buildroot}/%{_sysconfdir}/emacs/site-start.d/%{name}.el
 
 # (tpg) correct path for *.so java libraries
 sed -i -e 's#/usr/lib/jni/#%{_libdir}#g' %{buildroot}%{_datadir}/%{name}/etc/librarypath.xml
 
 # (tpg) fonts
-mkdir -p %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
-install -m644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
+install -dm 0755 %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
+install -pm 0644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
 
 # (tpg) nuke rpath
-for file in %{buildroot}%{_bindir}/{intersci,scilab-bin,scilab-cli-bin}; do \
+for file in %{buildroot}%{_bindir}/{scilab-bin,scilab-cli-bin}; do \
     chrpath -d $file; \
 done
 
 # (tpg) get rid of files with licenses
 rm %{buildroot}%{_datadir}/%{name}/modules/*/license.txt
-rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt 
+rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/sciGUI/license.txt
-rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt 
+rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 
+# locales
 %find_lang %{name}
 
+%check
+%make check-TESTS || true
 
-%files -f %{name}.lang
-%doc ACKNOWLEDGEMENTS CHANGES_5.5.X license.txt RELEASE_NOTES_5.3.X README_Unix
-%{_bindir}/*
-%{_libdir}/scilab
-%{_iconsdir}/hicolor/*/apps/*.png
-%{_iconsdir}/hicolor/*/mimetypes/application-x-%{name}-*.png
-%config(noreplace) /etc/emacs/site-start.d/%{name}.el
-%{_datadir}/*/site-lisp/*el*
-%{_datadir}/applications/*.desktop
-%{_datadir}/appdata/*.appdata.xml
-%{_datadir}/mime/packages/*.xml
-%{_datadir}/%{name}
+# .desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-%files devel
-%{_includedir}/%{name}
-%{_libdir}/pkgconfig/*.pc
+# .appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
+
