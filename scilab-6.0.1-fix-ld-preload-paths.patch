@@ -1,13 +1,13 @@
---- scilab-5.5.2/bin/scilab.orig       2011-08-04 16:06:07.591897812 -0300
-+++ scilab-5.5.2/bin/scilab    2011-08-04 16:06:31.691897776 -0300
+--- a/bin/scilab
++++ b/bin/scilab
 @@ -667,7 +667,6 @@ check_macosx_version()
  if test -d $SCI/lib/thirdparty; then
      SCILIB=$SCI/lib/thirdparty:$SCILIB;
  fi
 -LD_LIBRARY_PATH=$SCILIB${LD_LIBRARY_PATH+:$LD_LIBRARY_PATH}
-
- case $OS in
-     *darwin* | *Darwin*) # MacOS X
+ if test -d $SCI/lib/thirdparty/redist; then
+     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SCI/lib/thirdparty/redist;
+ fi
 @@ -708,6 +707,8 @@ fi
  export LD_LIBRARY_PATH
  export PATH

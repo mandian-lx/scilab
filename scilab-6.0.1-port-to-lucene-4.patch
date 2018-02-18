@@ -10,10 +10,11 @@
  import org.scilab.modules.xcos.palette.model.PreLoaded;
 @@ -60,7 +61,7 @@
          try {
-             Directory ramDir = new RAMDirectory();
+             indexedDirectory = new RAMDirectory();
              analyzer = new StandardAnalyzer();
 -            IndexWriterConfig config = new IndexWriterConfig(analyzer);
 +            IndexWriterConfig config = new IndexWriterConfig(Version.LATEST, analyzer);
              config.setOpenMode(OpenMode.CREATE);
-             writer = new IndexWriter(ramDir, config);
+             writer = new IndexWriter(indexedDirectory, config);
          } catch (IOException ex) {
+

@@ -6,7 +6,7 @@
 
 Summary:	A high-level language for numerical computations
 Name:		scilab
-Version:	6.0.0
+Version:	6.0.1
 Release:	0
 License:	GPLv2 and BSD
 Group:		Sciences/Mathematics
@@ -19,7 +19,7 @@ Source100:	%{name}.rpmlintrc
 # (tpg) doc build fails on x86_64 chroot, incerasing java memory heap size should help
 #Patch1:	%{name}-5.5.2-increase-java-heap-size.patch
 # (tpg) correct LD_PRELOAD
-Patch2:		%{name}-5.5.2-fix-ld-preload-paths.patch
+Patch2:		%{name}-6.0.1-fix-ld-preload-paths.patch
 # (tpg) add more paths
 Patch3:		%{name}-6.0.0-add-more-paths-librarypath.patch
 Patch4:		%{name}-6.0.0-fix-type.patch
@@ -29,9 +29,10 @@ Patch5:		%{name}-6.0.0-fix-rpath-in-pkgconfig.patch
 Patch100:	scilab-0002-jogl-2.3.2.patch
 # adapted from http://gitweb.scilab.org/?p=scilab.git;a=commitdiff;h=962fe026f1c44f7f76435db0b4838b0d936994c8
 Patch101:	%{name}-6.0.0-fix-build-with-ocaml-4.0.4.patch
-Patch300:	%{name}-6.0.0-port-to-lucene-4.patch
+#Patch300:	%{name}-6.0.1-port-to-lucene-6.patch
+Patch300:	%{name}-6.0.1-port-to-lucene-4.patch
 Patch301:	%{name}-6.0.0-port-to-libhdf5-1.10.patch
-Patch302:	%{name}-6.0.0-port-to-batik-1.9.patch
+#Patch302:	%{name}-6.0.0-port-to-batik-1.9.patch
 Patch303:	%{name}-6.0.0-port-to-lapack-3.6.0.patch
 
 # configure
@@ -172,7 +173,7 @@ Requires:	ecj
 Requires:	flexdock
 Requires:	fop
 Requires:	gluegen2
-Requires:	java > 1.8
+Requires:	java >= 1:1.8
 Requires:	javahelp2
 Requires:	jeuclid-core
 Requires:	jgoodies-looks
@@ -296,9 +297,9 @@ done
 
 # (tpg) get rid of files with licenses
 rm %{buildroot}%{_datadir}/%{name}/modules/*/license.txt
-rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt 
+rm %{buildroot}%{_datadir}/%{name}/contrib/toolbox_skeleton/license.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/tclsci/tcl/sciGUI/license.txt
-rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt 
+rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/TAUCS_license.txt
 rm %{buildroot}%{_datadir}/%{name}/modules/umfpack/UMFPACK_license.txt
 
 # locales
