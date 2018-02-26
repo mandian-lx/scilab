@@ -1,6 +1,8 @@
 removed_sources:
-  scilab-5.5.2-src.tar.xz: b86c589e20da244d4b2ede6c51b7d9b638b3953a
+  scilab-5.5.2-src.tar.xz:  b86c589e20da244d4b2ede6c51b7d9b638b3953a
   scilab-6.0.0-src.tar.gz: 132e3dcd9495de65f0ca3fe2ee7585861d5197c9
 sources:
+  scilab.rpmlintrc:  f56014b2f75f2b3168fc69b74b7d6680b0af6538
+  scilabsymbols.ttf:  6210fa644f1527284c4bbd28a50f90443d0f7799
+  dot.depend:  7181c59ed814ff864ffb14d6807e23fb6eb51adb
   scilab-6.0.1-src.tar.gz: 4d24f68763e139fa70beadf9d7daa97065c4fa84
-  scilabsymbols.ttf: 6210fa644f1527284c4bbd28a50f90443d0f7799
