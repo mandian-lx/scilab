@@ -7,7 +7,7 @@
 Summary:	A high-level language for numerical computations
 Name:		scilab
 Version:	6.0.1
-Release:	0
+Release:	1
 License:	GPLv2 and BSD
 Group:		Sciences/Mathematics
 URL:		http://www.scilab.org/
@@ -140,7 +140,7 @@ BuildRequires:	umfpack-devel
 # emacs
 BuildRequires:	emacs-nox
 
-# packaginh
+# packaging
 BuildRequires:	chrpath
 BuildRequires:  desktop-file-utils
 BuildRequires:	imagemagick
@@ -240,7 +240,6 @@ sed -i -e '/name="Class-Path"/d' build.incl.xml
 export JAVA_HOME=%{java_home}
 
 # patched configure.ac
-#autoreconf -ifs
 autoreconf -fivs
 
 # for openmpi (lapack)
@@ -290,7 +289,6 @@ install -dm 0755 %{buildroot}%{_datadir}/%{name}/thirdparty/fonts
 install -pm 0644 %{SOURCE1} %{buildroot}%{_datadir}/%{name}/thirdparty/fonts/
 
 # (tpg) nuke rpath
-# intersci
 for file in %{buildroot}%{_bindir}/{scilab-bin,scilab-cli-bin}; do \
     chrpath -d $file; \
 done
